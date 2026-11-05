@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-red: #b80000;
+    --brand-dark-red: #790102;
+    --brand-slate: #384353;
+    --border-subtle: #e5e5e5;
+  }
+
+  body {
+    font-family: 'Hind Siliguri', 'Anek Bangla', system-ui, -apple-system, sans-serif;
+    color: #222222;
+    background-color: #f7f7f8;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: 'Li Alinur Sangbadpatra', 'Li Alinur Sangbadpatra Unicode', 'Li Alinur Sangbadpatra 2 Unicode', 'Noto Serif Bengali', 'Tiro Bangla', serif !important;
+  }
+}
+
+/* Authentic Li Alinur Sangbadpatra font family styling from uploaded fonts */
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra';
+  src: url('/fonts/Li-Alinur-Sangbadpatra-Unicode.ttf') format('truetype'),
+       url('/fonts/Li%20Alinur%20Sangbadpatra%20Unicode.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra';
+  src: url('/fonts/Li-Alinur-Sangbadpatra-Unicode-Italic.ttf') format('truetype'),
+       url('/fonts/Li%20Alinur%20Sangbadpatra%20Unicode%20Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra Unicode';
+  src: url('/fonts/Li-Alinur-Sangbadpatra-Unicode.ttf') format('truetype'),
+       url('/fonts/Li%20Alinur%20Sangbadpatra%20Unicode.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra Unicode';
+  src: url('/fonts/Li-Alinur-Sangbadpatra-Unicode-Italic.ttf') format('truetype'),
+       url('/fonts/Li%20Alinur%20Sangbadpatra%20Unicode%20Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra 2 Unicode';
+  src: url('/fonts/Li-Alinur-Sangbadpatra-Unicode.ttf') format('truetype'),
+       url('/fonts/Li%20Alinur%20Sangbadpatra%20Unicode.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-sangbadpatra {
+  font-family: 'Li Alinur Sangbadpatra', 'Li Alinur Sangbadpatra Unicode', 'Li Alinur Sangbadpatra 2 Unicode', 'Noto Serif Bengali', 'Tiro Bangla', serif;
+  letter-spacing: -0.015em;
+}
+
+.font-serif-bangla {
+  font-family: 'Li Alinur Sangbadpatra', 'Noto Serif Bengali', 'Tiro Bangla', serif;
+}
+
+.font-sans-bangla {
+  font-family: 'Hind Siliguri', 'Anek Bangla', system-ui, sans-serif;
+}
+
+/* Newspaper Category Markers */
+.left-marked {
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  background-color: #b80000;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.desktop-section-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #b80000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* Image zoom on card hover */
+.hover-zoom {
+  transition: transform 0.3s ease;
+}
+.hover-zoom-container:hover .hover-zoom {
+  transform: scale(1.04);
+}
+
+/* Clean Custom Scrollbar */
+.scrollbar-news::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.scrollbar-news::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.scrollbar-news::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+.scrollbar-news::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Print Styling */
+@media print {
+  /* When printing member card */
+  body:has(#printable-member-card) * {
+    visibility: hidden;
+  }
+  body:has(#printable-member-card) #printable-member-card,
+  body:has(#printable-member-card) #printable-member-card * {
+    visibility: visible;
+  }
+  body:has(#printable-member-card) #printable-member-card {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    transform: translateX(-50%);
+    width: 580px !important;
+    margin: 0 auto;
+    border: 2px solid #790102 !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  header, footer, button, nav {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+}

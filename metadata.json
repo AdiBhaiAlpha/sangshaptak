@@ -1,0 +1,6 @@
+{
+  "name": "সংশপ্তক - জাতীয় সাহিত্য ও সংবাদ সাময়িকী",
+  "description": "সংশপ্তক - বাংলাদেশের শীর্ষস্থানীয় জাতীয় সাহিত্য, সংস্কৃতি ও সংবাদ সাময়িকী পোর্টাল এবং ডিজিটাল ই-পেপার।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

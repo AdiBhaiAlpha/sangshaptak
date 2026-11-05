@@ -1,0 +1,1390 @@
+
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="https://i.ibb.co.com/F4MKM3R2/20260527-055637.png" />
+    <title>সমাজতান্ত্রিক ছাত্র ফ্রন্ট, ময়মনসিংহ জেলা শাখা</title>
+    <meta name="description" content="সমাজতান্ত্রিক ছাত্র ফ্রন্ট ময়মনসিংহ জেলা শাখা - সর্বজনীন গণতান্ত্রিক ও বৈজ্ঞানিক সমাজতান্ত্রিক সমাজ বিনির্মাণের লক্ষ্যে আপোষহীন প্রগতিশীল ছাত্র আন্দোলন।" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <script>
+      // Global error logging for debugging sandbox preview issues
+      window.addEventListener('error', function(e) {
+        console.error('[Preview Error]', e.message, e.filename, e.lineno, e.error);
+        try {
+          fetch('/api/client-error', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'error', message: e.message, filename: e.filename, lineno: e.lineno, stack: e.error ? e.error.stack : null })
+          }).catch(function() {});
+        } catch(err) {}
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('[Preview Unhandled Rejection]', e.reason);
+        try {
+          fetch('/api/client-error', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'unhandledrejection', message: String(e.reason), stack: (e.reason && e.reason.stack) ? e.reason.stack : null })
+          }).catch(function() {});
+        } catch(err) {}
+      });
+
+      // Bulletproof Sandbox LocalStorage / SessionStorage guard (guaranteed safe across iframes)
+      (function() {
+        var isStorageSupported = false;
+        try {
+          if (typeof window !== 'undefined' && 'localStorage' in window && window.localStorage !== null) {
+            window.localStorage.setItem('__ssf_test__', '1');
+            window.localStorage.removeItem('__ssf_test__');
+            isStorageSupported = true;
+          }
+        } catch (e) {
+          console.warn('[Storage Guard] Native localStorage restricted in iframe sandbox:', e);
+        }
+
+        if (!isStorageSupported) {
+          var makeMemoryStorage = function() {
+            var store = {};
+            return {
+              getItem: function(key) { return key in store ? store[key] : null; },
+              setItem: function(key, value) { store[key] = String(value); },
+              removeItem: function(key) { delete store[key]; },
+              clear: function() { store = {}; },
+              key: function(index) { return Object.keys(store)[index] || null; },
+              get length() { return Object.keys(store).length; }
+            };
+          };
+
+          var mockLocal = makeMemoryStorage();
+          var mockSession = makeMemoryStorage();
+
+          try {
+            Object.defineProperty(Window.prototype, 'localStorage', {
+              get: function() { return mockLocal; },
+              configurable: true
+            });
+          } catch(e1) {
+            try { window.localStorage = mockLocal; } catch(e2) {}
+          }
+
+          try {
+            Object.defineProperty(Window.prototype, 'sessionStorage', {
+              get: function() { return mockSession; },
+              configurable: true
+            });
+          } catch(e3) {
+            try { window.sessionStorage = mockSession; } catch(e4) {}
+          }
+        }
+
+        // Clean up stale caches safely with iframe-safe try-catches
+        try {
+          if (window.localStorage) { window.localStorage.removeItem('scf_database_cache'); }
+          if (window.sessionStorage) { window.sessionStorage.removeItem('scf_database_cache'); }
+        } catch(e) {}
+        try {
+          if ('caches' in window && window.caches && typeof window.caches.keys === 'function') {
+            window.caches.keys().then(function(names) {
+              for (var i = 0; i < names.length; i++) {
+                var name = names[i];
+                if (name && (name.includes('scf') || name.includes('data') || name.includes('news'))) {
+                  window.caches.delete(name).catch(function() {});
+                }
+              }
+            }).catch(function() {});
+          }
+        } catch(e) {}
+        try {
+          if ('serviceWorker' in navigator && navigator.serviceWorker && typeof navigator.serviceWorker.getRegistrations === 'function') {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+              if (registrations) {
+                for (var i = 0; i < registrations.length; i++) {
+                  registrations[i].unregister().catch(function() {});
+                }
+              }
+            }).catch(function() {});
+          }
+        } catch(e) {}
+      })();
+
+      // Prevent Vite ReferenceError: __DEFINES__ is not defined
+      window.__DEFINES__ = window.__DEFINES__ || {};
+
+      // Bulletproof CanvasGradient.prototype.addColorStop protection for html2canvas & export
+      if (typeof CanvasGradient !== 'undefined' && CanvasGradient.prototype && CanvasGradient.prototype.addColorStop) {
+        const _origAddColorStop = CanvasGradient.prototype.addColorStop;
+        CanvasGradient.prototype.addColorStop = function(offset, color) {
+          let safeOffset = Number(offset);
+          if (!Number.isFinite(safeOffset) || isNaN(safeOffset)) {
+            safeOffset = 0;
+          } else {
+            safeOffset = Math.max(0, Math.min(1, safeOffset));
+          }
+          try {
+            return _origAddColorStop.call(this, safeOffset, color);
+          } catch (e) {
+            console.warn('[CanvasGradient] Guarded invalid stop:', offset, color, e);
+          }
+        };
+      }
+
+      // Safe image URL resolver with proxy & default avatar fallback
+      window.getSafeImageUrl = function(url) {
+        if (!url || typeof url !== 'string') return '/default-avatar.svg';
+        url = url.trim();
+        if (url.startsWith('data:') || url.startsWith('blob:')) return url;
+        if (url.includes('default-avatar')) return '/default-avatar.svg';
+        if (url.startsWith('/uploads/') || url.startsWith('uploads/')) {
+          return '/' + url.replace(/^\//, '');
+        }
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+          if (url.includes('/api/proxy-image') || (window.location && url.includes(window.location.host))) {
+            return url;
+          }
+          return '/api/proxy-image?url=' + encodeURIComponent(url);
+        }
+        if (!url.startsWith('/')) return '/' + url;
+        return url;
+      };
+
+      // Global fallback for broken <img> elements
+      window.handleImageError = function(e) {
+        var el = (e && (e.currentTarget || e.target)) ? (e.currentTarget || e.target) : null;
+        if (!el || el.tagName !== 'IMG') return;
+        if (el.getAttribute('data-error-handled')) {
+          if (el.src !== (window.location.origin + '/default-avatar.svg')) {
+            el.src = '/default-avatar.svg';
+          }
+          return;
+        }
+        el.setAttribute('data-error-handled', '1');
+        var original = el.getAttribute('data-original-src') || el.src;
+        if (original && (original.startsWith('http://') || original.startsWith('https://')) && !original.includes('/api/proxy-image')) {
+          el.crossOrigin = 'anonymous';
+          el.src = '/api/proxy-image?url=' + encodeURIComponent(original);
+        } else {
+          el.src = '/default-avatar.svg';
+        }
+      };
+    </script>
+    <script type="module" src="/assets/index-CfB6qF4K.js?v=25"></script>
+    <link rel="stylesheet" href="/assets/index-CTEVXO2L.css?v=25">
+    <link rel="modulepreload" href="/assets/ui-vendor-jRKCWLNw.js">
+    <link rel="modulepreload" href="/assets/react-vendor-BlOHcCTU.js">
+    <link rel="modulepreload" href="/assets/firebase-vendor-DQ16lfLv.js">
+    <link rel="stylesheet" href="/borbila-admin.css">
+  
+    <!-- Custom Bangla Fonts Preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;700;800&family=Galada&family=Hind+Siliguri:wght@400;500;600;700&family=Mina:wght@400;700&family=Noto+Sans+Bengali:wght@400;600;700;800&family=Noto+Serif+Bengali:wght@400;600;700;800&family=Roboto+Slab:wght@400;500;600;700&family=Tiro+Bangla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/Bornopata-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/Bornopata-Bold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/Li-Alinur-Sangbadpatra2-Unicode.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/Li-Alinur-Sangbadpatra2-Unicode-Italic.ttf" as="font" type="font/ttf" crossorigin>
+    <style>
+      html, body {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      #locked-canvas-stage {
+        touch-action: none !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -webkit-user-drag: none !important;
+      }
+      #locked-canvas-stage canvas {
+        pointer-events: none !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -webkit-user-drag: none !important;
+      }
+
+@font-face {
+  font-family: 'Bornopata Regular';
+  src: url('/fonts/Bornopata-Regular.ttf') format('truetype'),
+       url('/Bornopata-Regular.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bornopata Bold';
+  src: url('/fonts/Bornopata-Bold.ttf') format('truetype'),
+       url('/Bornopata-Bold.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bornopata';
+  src: url('/fonts/Bornopata-Regular.ttf') format('truetype'),
+       url('/Bornopata-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bornopata';
+  src: url('/fonts/Bornopata-Bold.ttf') format('truetype'),
+       url('/Bornopata-Bold.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra 2 Unicode';
+  src: url('/fonts/Li-Alinur-Sangbadpatra2-Unicode.ttf') format('truetype'),
+       url('/Li%20Alinur%20Sangbadpatra2%20Unicode.ttf') format('truetype'),
+       url('/Li-Alinur-Sangbadpatra2-Unicode.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra2 Unicode';
+  src: url('/fonts/Li-Alinur-Sangbadpatra2-Unicode.ttf') format('truetype'),
+       url('/Li%20Alinur%20Sangbadpatra2%20Unicode.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra 2 Unicode Italic';
+  src: url('/fonts/Li-Alinur-Sangbadpatra2-Unicode-Italic.ttf') format('truetype'),
+       url('/Li%20Alinur%20Sangbadpatra2%20Unicode%20Italic.ttf') format('truetype'),
+       url('/Li-Alinur-Sangbadpatra2-Unicode-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra 2 Unicode Italic';
+  src: url('/fonts/Li-Alinur-Sangbadpatra2-Unicode-Italic.ttf') format('truetype'),
+       url('/Li%20Alinur%20Sangbadpatra2%20Unicode%20Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra2 Unicode Italic';
+  src: url('/fonts/Li-Alinur-Sangbadpatra2-Unicode-Italic.ttf') format('truetype'),
+       url('/Li%20Alinur%20Sangbadpatra2%20Unicode%20Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Li Alinur Sangbadpatra2 Unicode Italic';
+  src: url('/fonts/Li-Alinur-Sangbadpatra2-Unicode-Italic.ttf') format('truetype'),
+       url('/Li%20Alinur%20Sangbadpatra2%20Unicode%20Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+    
+/* ==========================================================
+   SPLIT SCREEN LAYOUT FOR PRESS RELEASE CREATOR
+   ========================================================== */
+.ssf-pr-split-layout {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.ssf-pr-form-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.ssf-pr-preview-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Mobile/Tablet: both columns visible as full width */
+@media (max-width: 1024px) {
+  .ssf-pr-form-column,
+  .ssf-pr-preview-column {
+    flex: 100%;
+    min-width: 100%;
+  }
+}
+
+/* Desktop: split layout */
+@media (min-width: 1024px) {
+  .ssf-pr-split-layout {
+    flex-direction: row;
+  }
+  .ssf-pr-form-column {
+    flex: 0 0 48%;
+    border-right: 1px solid #e2e8f0;
+    padding-right: 24px;
+  }
+  .ssf-pr-preview-column {
+    flex: 0 0 48%;
+    padding-left: 24px;
+  }
+  .ssf-pr-visible {
+    display: block !important;
+  }
+  .ssf-pr-not-visible {
+    display: none !important;
+  }
+}
+
+.ssf-pr-tab {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ssf-pr-tab.active {
+  border-bottom: 2px solid #e11d48;
+  color: #e11d48;
+  padding-bottom: 8px;
+}
+
+.ssf-pr-tab:hover:not(.active) {
+  color: #c90d15;
+}
+
+/* =========================================================
+   PREMIUM INSTITUTIONAL GLOBAL LOADER & BOOT EXPERIENCE
+   ========================================================= */
+@keyframes ssfLogoEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ssfLogoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes ssfAmbientLight {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes ssfIndeterminateProgress {
+  0% {
+    left: 0%;
+    width: 0%;
+  }
+  30% {
+    left: 10%;
+    width: 40%;
+  }
+  70% {
+    left: 55%;
+    width: 45%;
+  }
+  100% {
+    left: 100%;
+    width: 0%;
+  }
+}
+
+@keyframes ssfDot1 {
+  0%, 20% { opacity: 0; }
+  35%, 100% { opacity: 1; }
+}
+
+@keyframes ssfDot2 {
+  0%, 45% { opacity: 0; }
+  60%, 100% { opacity: 1; }
+}
+
+@keyframes ssfDot3 {
+  0%, 70% { opacity: 0; }
+  85%, 100% { opacity: 1; }
+}
+
+@keyframes ssfTextFade {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ssf-boot-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  background-color: #fafafa;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ssf-boot-container {
+    background-color: #09090b;
+  }
+}
+
+.dark .ssf-boot-container {
+  background-color: #09090b;
+}
+
+.ssf-logo-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ssfLogoEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ssf-logo-floater {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ssfLogoFloat 4.5s ease-in-out infinite 0.75s;
+  will-change: transform;
+}
+
+.ssf-logo-ambient {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(225, 29, 72, 0.18) 0%, rgba(225, 29, 72, 0.05) 50%, transparent 70%);
+  animation: ssfAmbientLight 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ssf-logo-emblem {
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(225, 29, 72, 0.12);
+  border: 1.5px solid rgba(225, 29, 72, 0.25);
+  background-color: #ffffff;
+}
+
+.dark .ssf-logo-emblem {
+  box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.5), 0 4px 14px -2px rgba(225, 29, 72, 0.2);
+  border: 1.5px solid rgba(225, 29, 72, 0.35);
+  background-color: #18181b;
+}
+
+.ssf-progress-track {
+  position: relative;
+  width: 150px;
+  height: 2.5px;
+  border-radius: 9999px;
+  background-color: rgba(225, 29, 72, 0.12);
+  overflow: hidden;
+}
+
+.dark .ssf-progress-track {
+  background-color: rgba(225, 29, 72, 0.2);
+}
+
+.ssf-progress-bar-active {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  background-color: #e11d48;
+  animation: ssfIndeterminateProgress 1.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ssf-dot-1 {
+  display: inline-block;
+  animation: ssfDot1 1.6s infinite;
+}
+.ssf-dot-2 {
+  display: inline-block;
+  animation: ssfDot2 1.6s infinite;
+}
+.ssf-dot-3 {
+  display: inline-block;
+  animation: ssfDot3 1.6s infinite;
+}
+
+.ssf-status-text {
+  animation: ssfTextFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ssf-logo-wrapper,
+  .ssf-logo-floater,
+  .ssf-logo-ambient,
+  .ssf-status-text,
+  .ssf-dot-1,
+  .ssf-dot-2,
+  .ssf-dot-3 {
+    animation: none !important;
+  }
+}
+
+/* =========================================
+   SSF PRESS RELEASE TEMPLATE (ssfpr.html EXACT)
+========================================= */
+:root {
+  --brand-red: #c90d15;
+  --brand-dark: #a70910;
+  --deep-black: #171717;
+  --soft-black: #333333;
+  --paper: #ffffff;
+  --background: #eeeeee;
+  --line: #c9c9c9;
+}
+
+.ssf-pr-document {
+  font-family: "Tiro Bangla", serif;
+  color: #171717;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 1in;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.ssf-pr-document::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, transparent 0%, #c90d15 12%, #c90d15 88%, transparent 100%);
+}
+
+.ssf-pr-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding-bottom: 18px;
+  position: relative;
+}
+
+.ssf-pr-logo-frame {
+  width: 138px;
+  min-width: 138px;
+  height: 150px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px;
+  margin-top: 15px;
+  box-sizing: border-box;
+}
+
+.ssf-pr-logo {
+  width: 120%;
+  height: 120%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.ssf-pr-logo-frame::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-top: 2px solid #222;
+  border-left: 2px solid #222;
+}
+
+.ssf-pr-logo-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-top: 2px solid #222;
+  border-right: 2px solid #222;
+}
+
+.ssf-pr-logo-corner-bl,
+.ssf-pr-logo-corner-br {
+  position: absolute;
+  bottom: 0;
+  width: 36px;
+  height: 36px;
+}
+
+.ssf-pr-logo-corner-bl {
+  left: 0;
+  border-bottom: 2px solid #222;
+  border-left: 2px solid #222;
+}
+
+.ssf-pr-logo-corner-br {
+  right: 0;
+  border-bottom: 2px solid #222;
+  border-right: 2px solid #222;
+}
+
+.ssf-pr-org-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ssf-pr-title-image {
+  width: 100%;
+  max-width: 465px;
+  max-height: 78px;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.ssf-pr-english-name {
+  font-family: "Roboto Slab", Georgia, serif;
+  color: #a70910;
+  font-size: 15.5pt;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+
+.ssf-pr-district-name {
+  color: #a70910;
+  font-size: 13.5pt;
+  line-height: 1.35;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.ssf-pr-divider {
+  width: 100%;
+  height: 4px;
+  margin-top: 2px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.ssf-pr-divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1.5px solid #a70910;
+}
+
+.ssf-pr-divider::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #555;
+  opacity: 0.65;
+}
+
+.ssf-pr-meta {
+  position: relative;
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 10px;
+}
+
+.ssf-pr-release-title {
+  display: inline-block;
+  font-size: 16pt;
+  line-height: 1.15;
+  font-weight: 700;
+  padding: 0 10px 4px;
+  border-bottom: 2px solid #171717;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.ssf-pr-date {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11pt;
+  line-height: 1.4;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.ssf-pr-headline-banner {
+  background: #c90d15;
+  color: #ffffff;
+  text-align: center;
+  padding: 15px 32px 16px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.ssf-pr-headline-banner::before,
+.ssf-pr-headline-banner::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.ssf-pr-headline-banner::before {
+  top: 7px;
+}
+
+.ssf-pr-headline-banner::after {
+  bottom: 7px;
+}
+
+.ssf-pr-headline-banner p {
+  font-size: 14pt;
+  line-height: 1.52;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.ssf-pr-article {
+  font-size: 12pt;
+  line-height: 1.65;
+  font-weight: 400;
+  text-align: justify;
+  color: #171717;
+}
+
+.ssf-pr-article p {
+  margin: 0 0 12px 0;
+}
+.ssf-pr-article p:last-child {
+  margin-bottom: 0;
+}
+
+.ssf-pr-committee-section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #d5d5d5;
+}
+
+.ssf-pr-committee-grid {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  align-items: start;
+}
+
+.ssf-pr-committee-col {
+  font-size: 12pt;
+  line-height: 1.65;
+}
+
+.ssf-pr-committee-col p {
+  margin: 0;
+}
+
+.ssf-pr-committee-col strong {
+  font-weight: 700;
+}
+
+.ssf-pr-members-col {
+  padding-left: 35px;
+  border-left: 1px solid #d0d0d0;
+}
+
+.ssf-pr-members-title {
+  display: inline-block;
+  font-weight: 700;
+  border-bottom: 1px solid #c90d15;
+  margin-bottom: 4px !important;
+  padding-bottom: 1px;
+}
+
+.ssf-pr-signature-wrap {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ssf-pr-signature {
+  width: 255px;
+  padding-top: 12px;
+  border-top: 2px solid #c90d15;
+  text-align: left;
+  font-size: 11pt;
+  line-height: 1.55;
+  color: #333333;
+}
+
+.ssf-pr-signature p {
+  margin: 0;
+}
+
+.ssf-pr-signature-label {
+  font-weight: 700;
+  color: #171717;
+  margin-bottom: 3px !important;
+}
+
+.ssf-pr-signature-name {
+  font-weight: 700;
+  color: #171717;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1in;
+  }
+  body {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .ssf-pr-document {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  .ssf-pr-document::before {
+    display: none !important;
+  }
+  .ssf-pr-headline-banner,
+  .ssf-pr-committee-section,
+  .ssf-pr-signature-wrap {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+    </style>
+  
+  </head>
+  <body>
+    <div id="root">
+      <!-- Clean Branded Initial State -->
+      <style>
+        @keyframes ssf-init-spin { to { transform: rotate(360deg); } }
+      </style>
+      <div style="min-height: 100vh; background-color: #fafafa; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, sans-serif;">
+        <div style="text-align: center; max-width: 400px; padding: 24px;">
+          <img src="https://i.ibb.co.com/F4MKM3R2/20260527-055637.png" alt="সমাজতান্ত্রিক ছাত্র ফ্রন্ট" style="width: 64px; height: 64px; margin: 0 auto 16px auto; border-radius: 9999px; object-fit: contain;" />
+          <h2 style="font-size: 18px; font-weight: 700; color: #18181b; margin: 0 0 6px 0;">সমাজতান্ত্রিক ছাত্র ফ্রন্ট</h2>
+          <p style="font-size: 13px; font-weight: 600; color: #e11d48; margin: 0 0 20px 0;">ময়মনসিংহ জেলা শাখা</p>
+          <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #71717a;">
+            <span style="display: inline-block; width: 16px; height: 16px; border: 2.5px solid #e11d48; border-top-color: transparent; border-radius: 50%; animation: ssf-init-spin 0.8s linear infinite;"></span>
+            <span>পোর্টাল লোড হচ্ছে...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/jante-chai.js?v=6" defer></script>
+    
+    <!-- Clear cache button -->
+    <div style="text-align: center; padding: 20px 0; background: transparent; margin-bottom: 20px;">
+      <button onclick="localStorage.clear(); sessionStorage.clear(); caches.keys().then(function(names) { for (let name of names) caches.delete(name); }); window.location.reload(true);" style="background: transparent; color: #a1a1aa; border: 1px solid #e4e4e7; padding: 6px 12px; border-radius: 50px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: normal; transition: all 0.2s; font-family: sans-serif;" onmouseover="this.style.background='#f4f4f5'; this.style.color='#52525b'" onmouseout="this.style.background='transparent'; this.style.color='#a1a1aa'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        ক্লিয়ার ক্যাশ
+      </button>
+    </div>
+
+    <!-- ============================================================
+         PHOTOCARD MAKER V2 WIDGET
+         (responsive preview wrapper + export overlay + download btn)
+         Displayed only on ?tab=photocard or standalone mode to prevent layout disruption on home/other tabs
+         ============================================================ -->
+    <div id="borbila-photocard-widget" style="display: none; max-width: 600px; margin: 24px auto; padding: 0 16px;">
+      <div class="borbila-preview-wrapper" id="borbila-preview-wrapper">
+        <div class="borbila-export-overlay" id="borbila-export-overlay">
+          <div class="borbila-export-spinner"></div>
+          <span>Generating photocard...</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+        <button id="borbila-download-btn" class="borbila-photocard-front-button" style="flex: 1; min-width: 200px;">
+          <svg class="borbila-photocard-front-button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span class="borbila-photocard-front-button-text">Download PhotoCard</span>
+        </button>
+      </div>
+    </div>
+
+    <script src="/borbila-v2-engine.js"></script>
+    <script src="/community-chat.js" defer></script>
+    <script type="module" src="/press_release_renderer.js" defer></script>
+    <script>
+      /* ============================================================
+         PRESS RELEASE RENDERER FALLBACK
+         (fixes missing press_release_creator.js import crash)
+         ============================================================ */
+      (function() {
+        if (window.PressReleaseRenderer) return;
+        console.warn('[PressRelease] press_release_creator.js not loaded — using stub fallback');
+        var DEFAULT_DATA = { headline: '', body: '', date: '', committee: '', signature: '' };
+        window.PressReleaseRenderer = {
+          exportToPNG: function() { return Promise.reject(new Error('Press release creator not available')); },
+          print: function() { window.print(); },
+          toPlainText: function(data) { return (data && data.headline ? data.headline + '\n\n' : '') + (data && data.body || ''); },
+          getDefaultData: function() { return Object.assign({}, DEFAULT_DATA); }
+        };
+      })();
+
+      /* ============================================================
+         PHOTOCARD MAKER V2 — STATE MANAGEMENT & LIVE SYNC
+         (fixes: state sync lag, blob URL leaks, error feedback,
+          responsive preview, file validation)
+         ============================================================ */
+      (function() {
+        'use strict';
+
+        var ENGINE = window.borbilaDrawClassicFormat ? window : null;
+        var CARD_SIZE = window.borbilaCardSize || 1080;
+        var ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+        var MAX_IMAGE_SIZE_MB = 10;
+
+        var state = {
+          format: 'classic-red',
+          photoImage: null,
+          logoImage: null,
+          photoBlobUrl: null,
+          logoBlobUrl: null,
+          payload: {
+            title: '',
+            centerText: '',
+            dateText: '',
+            siteName: '',
+            domain: '',
+            dateText: ''
+          },
+          settings: window.borbilaDefaultSettings ? Object.assign({}, window.borbilaDefaultSettings) : {}
+        };
+
+        /* ----------------------------------------------------------
+           ERROR TOAST
+           ---------------------------------------------------------- */
+        var toastEl = null;
+        var toastTimer = null;
+
+        function showError(msg) {
+          if (!toastEl) {
+            toastEl = document.createElement('div');
+            toastEl.className = 'borbila-error-toast';
+            document.body.appendChild(toastEl);
+          }
+          toastEl.textContent = msg;
+          toastEl.classList.add('is-visible');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function() {
+            toastEl.classList.remove('is-visible');
+          }, 5000);
+        }
+
+        /* ----------------------------------------------------------
+           FILE VALIDATION
+           ---------------------------------------------------------- */
+        function validateFile(file) {
+          if (!file) return 'No file selected';
+          if (ALLOWED_IMAGE_TYPES.indexOf(file.type) === -1) {
+            return 'Invalid file type "' + file.type + '". Allowed: JPEG, PNG, GIF, WebP, SVG.';
+          }
+          if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
+            return 'File too large (' + (file.size / 1024 / 1024).toFixed(1) + 'MB). Max: ' + MAX_IMAGE_SIZE_MB + 'MB.';
+          }
+          return null;
+        }
+
+        /* ----------------------------------------------------------
+           BLOB URL TRACKING (prevents memory leaks)
+           ---------------------------------------------------------- */
+        function revokeOldBlob(key) {
+          if (state[key]) {
+            try { URL.revokeObjectURL(state[key]); } catch(e) {}
+            state[key] = null;
+          }
+        }
+
+        function loadUserImage(file, imageKey, blobKey) {
+          var error = validateFile(file);
+          if (error) {
+            showError(error);
+            return Promise.reject(new Error(error));
+          }
+
+          revokeOldBlob(blobKey);
+          var url = URL.createObjectURL(file);
+          state[blobKey] = url;
+
+          return new Promise(function(resolve, reject) {
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+              state[imageKey] = img;
+              resolve(img);
+            };
+            img.onerror = function() {
+              revokeOldBlob(blobKey);
+              state[imageKey] = null;
+              var err = new Error('Failed to load uploaded image');
+              showError(err.message);
+              reject(err);
+            };
+            img.src = url;
+          });
+        }
+
+        function loadImageUrl(url, imageKey) {
+          if (!url || typeof url !== 'string' || !url.trim()) {
+            state[imageKey] = null;
+            return Promise.resolve(null);
+          }
+          url = url.trim();
+          return new Promise(function(resolve) {
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function() {
+              state[imageKey] = img;
+              resolve(img);
+            };
+            img.onerror = function() {
+              if (url.startsWith('http') && !url.includes('/api/proxy-image')) {
+                var proxyImg = new Image();
+                proxyImg.crossOrigin = 'anonymous';
+                proxyImg.onload = function() {
+                  state[imageKey] = proxyImg;
+                  resolve(proxyImg);
+                };
+                proxyImg.onerror = function() {
+                  state[imageKey] = null;
+                  resolve(null);
+                };
+                proxyImg.src = '/api/proxy-image?url=' + encodeURIComponent(url);
+              } else {
+                state[imageKey] = null;
+                resolve(null);
+              }
+            };
+            img.src = url;
+          });
+        }
+
+        /* ----------------------------------------------------------
+           LIVE PREVIEW RENDERER
+           ---------------------------------------------------------- */
+        var previewCanvas = null;
+        var rafId = null;
+
+        function schedulePreview() {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(renderPreview);
+        }
+
+        function renderPreview() {
+          rafId = null;
+          if (!ENGINE) return;
+
+          var wrapper = document.getElementById('borbila-preview-wrapper');
+          if (!wrapper) return;
+
+          if (!previewCanvas) {
+            previewCanvas = document.createElement('canvas');
+            previewCanvas.style.width = '100%';
+            previewCanvas.style.height = 'auto';
+            previewCanvas.style.borderRadius = '7px';
+            previewCanvas.style.display = 'block';
+            wrapper.innerHTML = '';
+            wrapper.appendChild(previewCanvas);
+          }
+
+          var containerWidth = wrapper.clientWidth || 400;
+          var displayW = Math.min(containerWidth, CARD_SIZE);
+          var displayH = displayW;
+
+          try {
+            window.borbilaRenderPreview(
+              state.format,
+              state.photoImage,
+              state.logoImage,
+              state.payload,
+              state.settings,
+              previewCanvas,
+              { displayWidth: displayW, displayHeight: displayH, size: CARD_SIZE }
+            );
+          } catch(e) {
+            console.error('[Borbila V2] Preview error:', e);
+            showError('Preview render failed: ' + e.message);
+          }
+        }
+
+        /* ----------------------------------------------------------
+           EXPORT WITH SPINNER + ERROR HANDLING
+           ---------------------------------------------------------- */
+        function handleExport() {
+          if (!ENGINE) {
+            showError('Photocard engine not loaded. Please refresh the page.');
+            return;
+          }
+
+          var overlay = document.getElementById('borbila-export-overlay');
+          var btn = document.getElementById('borbila-download-btn');
+
+          if (overlay) overlay.classList.add('is-active');
+          if (btn) btn.disabled = true;
+
+          window.borbilaExportPhotocard(
+            state.format,
+            state.photoImage,
+            state.logoImage,
+            state.payload,
+            state.settings,
+            { size: CARD_SIZE, scale: 1 }
+          ).then(function(result) {
+            console.log('[Borbila V2] Exported:', result.filename);
+          }).catch(function(err) {
+            console.error('[Borbila V2] Export error:', err);
+            showError('Export failed: ' + err.message);
+          }).then(function() {
+            if (overlay) overlay.classList.remove('is-active');
+            if (btn) btn.disabled = false;
+          });
+        }
+
+        /* ----------------------------------------------------------
+           FORM INPUT BINDING (live sync)
+           ---------------------------------------------------------- */
+        function bindInput(id, stateKey, subKey) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('input', function() {
+            if (subKey) {
+              state.payload[subKey] = el.value;
+            } else {
+              state.settings[stateKey] = el.value;
+            }
+            schedulePreview();
+          });
+        }
+
+        function bindFileInput(id, imageKey, blobKey) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('change', function() {
+            var file = el.files && el.files[0];
+            if (!file) return;
+            loadUserImage(file, imageKey, blobKey).then(function() {
+              schedulePreview();
+            }).catch(function() {});
+          });
+        }
+
+        /* ----------------------------------------------------------
+           INITIALIZATION
+           ---------------------------------------------------------- */
+        function initPhotocard() {
+          bindInput('bpc-title', 'title', 'title');
+          bindInput('bpc-center-text', 'centerText', 'centerText');
+          bindInput('bpc-date', 'dateText', 'dateText');
+          bindInput('bpc-site-name', 'siteName', 'siteName');
+          bindInput('bpc-primary-color', 'primaryColor');
+          bindInput('bpc-secondary-color', 'secondaryColor');
+          bindInput('bpc-accent-color', 'accentColor');
+          bindInput('bpc-logo-url', 'logoUrl');
+          bindFileInput('bpc-photo-upload', 'photoImage', 'photoBlobUrl');
+          bindFileInput('bpc-logo-upload', 'logoImage', 'logoBlobUrl');
+
+          var formatCards = document.querySelectorAll('.borbila-format-card input[name="borbila-format"]');
+          for (var i = 0; i < formatCards.length; i++) {
+            formatCards[i].addEventListener('change', function() {
+              state.format = this.value;
+              schedulePreview();
+            });
+          }
+
+          var downloadBtn = document.getElementById('borbila-download-btn');
+          if (downloadBtn) {
+            downloadBtn.addEventListener('click', handleExport);
+          }
+
+          if (window.borbilaNormalizeSettings) {
+            state.settings = window.borbilaNormalizeSettings(state.settings);
+          }
+
+          schedulePreview();
+        }
+
+        /* ----------------------------------------------------------
+           CLEANUP ON PAGE UNLOAD (blob URL leak prevention)
+           ---------------------------------------------------------- */
+        window.addEventListener('beforeunload', function() {
+          revokeOldBlob('photoBlobUrl');
+          revokeOldBlob('logoBlobUrl');
+          if (window.borbilaRevokeBlobUrls) window.borbilaRevokeBlobUrls();
+        });
+
+        /* ----------------------------------------------------------
+           RESIZE HANDLER (responsive preview re-render)
+           ---------------------------------------------------------- */
+        var resizeTimer = null;
+        window.addEventListener('resize', function() {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(schedulePreview, 150);
+        });
+
+        /* Auto-init when DOM ready */
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initPhotocard);
+        } else {
+          initPhotocard();
+        }
+
+        window.borbilaPhotocard = window.borbilaPhotocard || {};
+        window.borbilaPhotocard.state = state;
+        window.borbilaPhotocard.export = handleExport;
+        window.borbilaPhotocard.schedulePreview = schedulePreview;
+        window.borbilaPhotocard.loadUserImage = loadUserImage;
+      })();
+
+      /* Photocard Widget Tab Sync (avoids breaking layout on home page) */
+      function syncPhotocardWidgetVisibility() {
+        var widget = document.getElementById('borbila-photocard-widget');
+        if (!widget) return;
+        var search = window.location.search || '';
+        var params = new URLSearchParams(search);
+        var tab = params.get('tab');
+        if (tab === 'photocard' || params.get('borbila') === '1') {
+          widget.style.display = 'block';
+        } else {
+          widget.style.display = 'none';
+        }
+      }
+      syncPhotocardWidgetVisibility();
+      window.addEventListener('popstate', syncPhotocardWidgetVisibility);
+      setInterval(syncPhotocardWidgetVisibility, 500);
+
+      /* Global Image Error & Proxy Fallback Listener */
+      window.addEventListener('error', function(event) {
+        if (event.target && event.target.tagName === 'IMG') {
+          var img = event.target;
+          var originalSrc = img.getAttribute('data-original-src') || img.src;
+          if (!img.getAttribute('data-has-fallback')) {
+            img.setAttribute('data-has-fallback', '1');
+            img.setAttribute('data-original-src', originalSrc);
+            if (originalSrc && (originalSrc.startsWith('http://') || originalSrc.startsWith('https://')) && !originalSrc.includes('/api/proxy-image')) {
+              img.crossOrigin = 'anonymous';
+              img.src = '/api/proxy-image?url=' + encodeURIComponent(originalSrc);
+              return;
+            }
+            if (originalSrc && !originalSrc.startsWith('/') && !originalSrc.startsWith('http') && !originalSrc.startsWith('data:') && !originalSrc.startsWith('blob:')) {
+              img.src = '/' + originalSrc;
+              return;
+            }
+            img.src = '/default-avatar.svg';
+          } else if (img.src && !img.src.endsWith('/default-avatar.svg') && !img.src.endsWith('/default-avatar.png')) {
+            img.src = '/default-avatar.svg';
+          }
+        }
+      }, true);
+
+      /* ============================================================
+         PRESS RELEASE TAB SWITCHER (mobile/tablet tab toggle vs desktop split screen)
+         ============================================================ */
+      function showTab(tabName) {
+        var formCol = document.getElementById('formColumn');
+        var previewCol = document.getElementById('previewColumn');
+        var tabs = document.querySelectorAll('.ssf-pr-tab');
+
+        for (var i = 0; i < tabs.length; i++) {
+          tabs[i].classList.remove('active');
+          tabs[i].style.color = '#64748b';
+        }
+
+        if (window.innerWidth < 1024) {
+          if (tabName === 'form') {
+            if (formCol) formCol.style.display = 'block';
+            if (previewCol) previewCol.style.display = 'none';
+          } else {
+            if (formCol) formCol.style.display = 'none';
+            if (previewCol) previewCol.style.display = 'block';
+          }
+        } else {
+          if (formCol) formCol.style.display = 'block';
+          if (previewCol) previewCol.style.display = 'block';
+        }
+
+        var activeTab = tabName === 'form'
+          ? document.querySelector('.ssf-pr-tab[onclick*="form"]')
+          : document.querySelector('.ssf-pr-tab[onclick*="preview"]');
+        if (activeTab) {
+          activeTab.classList.add('active');
+          activeTab.style.color = '#e11d48';
+        }
+      }
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth >= 1024) {
+          var formCol = document.getElementById('formColumn');
+          var previewCol = document.getElementById('previewColumn');
+          if (formCol) formCol.style.display = 'block';
+          if (previewCol) previewCol.style.display = 'block';
+        }
+      });
+
+      /* ============================================================
+         REAL-TIME PRESS RELEASE SYNC (lightweight DOM polling)
+         ============================================================ */
+      document.addEventListener('input', function(e) {
+        var previewDoc = document.querySelector('.ssf-pr-document');
+        if (previewDoc && e.target.closest('.ssf-pr-form-column')) {
+          previewDoc.style.opacity = '0.95';
+          clearTimeout(previewDoc._syncTimer);
+          previewDoc._syncTimer = setTimeout(function() {
+            previewDoc.style.opacity = '1';
+          }, 200);
+        }
+      });
+    </script>
+  </body>
+</html>
