@@ -14,7 +14,8 @@ export const EventDarkBox: React.FC<EventDarkBoxProps> = ({
   onOpenMembership,
 }) => {
   // Key wing features mapped to curated articles
-  const chessArticle = articles.find((a) => a.category === 'chess') || articles[1];
+  if (!articles || articles.length === 0) return null;
+  const sportsArticle = articles.find((a) => a.category === 'sports') || articles[0];
   const studyArticle = articles.find((a) => a.category === 'study_circle') || articles[2];
   const songsArticle = articles.find((a) => a.category === 'songs_poetry') || articles[3];
   const publicationArticle = articles.find((a) => a.category === 'publications') || articles[4];
@@ -23,7 +24,7 @@ export const EventDarkBox: React.FC<EventDarkBoxProps> = ({
     {
       index: '০১',
       wingName: 'দাবা ও মনন চর্চা',
-      article: chessArticle,
+      article: sportsArticle,
       accentColor: 'text-amber-300',
     },
     {
@@ -75,7 +76,7 @@ export const EventDarkBox: React.FC<EventDarkBoxProps> = ({
 
         {/* 4 Cards Grid - Zero Pill, Pure Editorial Framing */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {wings.map((wing) => {
+          {wings.filter((wing) => wing.article).map((wing) => {
             const art = wing.article;
             return (
               <div
@@ -113,7 +114,9 @@ export const EventDarkBox: React.FC<EventDarkBoxProps> = ({
 
                 {/* Card Footer with quiet byline */}
                 <div className="flex items-center justify-between text-[11px] text-stone-400 pt-3 border-t border-stone-800/60 mt-4">
-                  <span className="truncate pr-2">{art.author.name}</span>
+                  <span className="truncate pr-2">
+                    {typeof art.author === 'string' ? art.author : (art.author?.name || 'সংশপ্তক প্রতিনিধি')}
+                  </span>
                   <span className="flex items-center text-amber-300/90 font-medium group-hover:translate-x-1 transition-transform flex-shrink-0">
                     বিস্তারিত <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
                   </span>

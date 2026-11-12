@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Kona';
+  src: url('/fonts/kona/Kona-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kona';
+  src: url('/fonts/kona/Kona Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --brand-red: #b80000;
@@ -72,6 +88,10 @@
 
 .font-serif-bangla {
   font-family: 'Li Alinur Sangbadpatra', 'Noto Serif Bengali', 'Tiro Bangla', serif;
+}
+
+.font-kona {
+  font-family: 'Kona', 'Noto Serif Bengali', 'Tiro Bangla', serif !important;
 }
 
 .font-sans-bangla {

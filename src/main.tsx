@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { MemberProvider } from './context/MemberContext';
+import { ArticlesProvider } from './context/ArticlesContext';
 import App from './App';
 import './index.css';
 
@@ -10,9 +11,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
       <MemberProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <ArticlesProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ArticlesProvider>
       </MemberProvider>
     </HelmetProvider>
   </React.StrictMode>

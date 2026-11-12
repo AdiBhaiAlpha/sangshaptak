@@ -1,12 +1,13 @@
-import React from 'react';
-import { SEO } from '../components/SEO';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
-  return (
-    <div className="bg-white p-6 rounded border border-gray-200 shadow-xs">
-      <SEO title="Register" />
-      <h1 className="font-serif text-2xl font-bold text-gray-950 mb-2">Register</h1>
-      <p className="text-gray-600 text-sm">এই পৃষ্ঠাটি শীঘ্রই সম্পূর্ণ হবে।</p>
-    </div>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Google OAuth handles both sign-up and login in one flow
+    navigate('/login', { replace: true });
+  }, [navigate]);
+
+  return null;
 }

@@ -43,7 +43,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           <img
             src="/assets/sangsaptak-logo.png"
             alt="সংশপ্তক প্রতীক"
-            className={`${emblemSizes[size]} object-contain drop-shadow-sm flex-shrink-0 transition-transform duration-300 group-hover:scale-105`}
+            className={`${emblemSizes[size]} object-contain flex-shrink-0 transition-transform duration-300 group-hover:scale-105`}
             loading="eager"
           />
         )}
@@ -51,7 +51,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           className={`font-sangbadpatra font-black tracking-tight leading-none ${sizeClasses[size]} ${textColor}`}
           style={{
             fontFamily: "'Li Alinur Sangbadpatra', 'Li Alinur Sangbadpatra Unicode', 'Noto Serif Bengali', 'Tiro Bangla', serif",
-            textShadow: isWhite ? '0 1px 2px rgba(0,0,0,0.3)' : 'none',
+            textShadow: 'none',
           }}
         >
           সংশপ্তক

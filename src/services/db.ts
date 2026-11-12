@@ -26,8 +26,15 @@ export async function removeValue(path: string): Promise<void> {
   await remove(ref(db, path));
 }
 
-export function subscribe(path: string, cb: (v: unknown) => void): () => void {
+export function subscribe(path: string, cb: (v: unknown) => void, onError?: (error: unknown) => void): () => void {
   const r = ref(db, path);
-  const unsub = onValue(r, (snap) => cb(snap.exists() ? snap.val() : null));
+  const unsub = onValue(
+    r,
+    (snap) => cb(snap.exists() ? snap.val() : null),
+    (error) => {
+      console.error(`Firebase subscribe error (${path})`, error);
+      if (onError) onError(error);
+    }
+  );
   return () => unsub();
 }

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Article, PollData, ClubMember } from '../types';
-import { clubEvents } from '../data/mockNewsData';
 import { toBanglaNumber } from '../utils/banglaUtils';
 import { 
   Clock, 
   Download, 
-  UserCheck,
   ChevronRight,
   MoreVertical
 } from 'lucide-react';
@@ -13,7 +11,7 @@ import {
 interface SidebarWidgetsProps {
   latestArticles: Article[];
   mostReadArticles: Article[];
-  poll: PollData;
+  poll: PollData | null;
   currentMember?: ClubMember | null;
   onSelectArticle: (article: Article) => void;
   onOpenEpaper: () => void;
@@ -36,13 +34,13 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
   const [activeTab, setActiveTab] = useState<'latest' | 'popular'>('latest');
 
   // Poll state
-  const [poll, setPoll] = useState<PollData>(initialPoll);
+  const [poll, setPoll] = useState<PollData | null>(initialPoll);
   const [selectedVote, setSelectedVote] = useState<'yes' | 'no' | 'no_comment' | null>(null);
   const [hasVoted, setHasVoted] = useState<boolean>(false);
   const [showResults, setShowResults] = useState<boolean>(false);
 
   const handleVoteSubmit = () => {
-    if (!selectedVote || hasVoted) return;
+    if (!poll || !selectedVote || hasVoted) return;
     const updated = { 
       ...poll, 
       totalVotes: poll.totalVotes + 1,
@@ -61,6 +59,7 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
   };
 
   const handleDownloadPollCard = () => {
+    if (!poll) return;
     const canvas = document.createElement('canvas');
     canvas.width = 600;
     canvas.height = 420;
@@ -113,102 +112,6 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* 1. Bespoke Editorial Membership Pass Card */}
-      <div className="bg-[#1a0507] text-stone-100 p-5 rounded-xs border border-amber-900/40 shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-28 h-28 bg-radial from-amber-500/10 to-transparent pointer-events-none" />
-        
-        <div className="flex items-center justify-between border-b border-amber-900/50 pb-2.5 mb-3">
-          <div className="flex items-center space-x-2">
-            <img
-              src="/assets/sangsaptak-logo.png"
-              alt="সংশপ্তক"
-              className="w-5 h-5 object-contain"
-            />
-            <span className="text-[11px] font-mono tracking-widest uppercase text-amber-300/90 font-medium">
-              সদস্য পরিষদ · ময়মনসিংহ
-            </span>
-          </div>
-          <span className="text-[10px] text-stone-400 font-mono">২০২৬</span>
-        </div>
-
-        {currentMember ? (
-          <div>
-            <div className="flex items-center space-x-3 my-2.5 bg-white/[0.04] p-3 rounded-xs border border-white/10">
-              <img
-                src={currentMember.avatarUrl}
-                alt={currentMember.name}
-                className="w-11 h-11 rounded-full border border-amber-400/80 object-cover"
-              />
-              <div className="text-xs">
-                <span className="font-bold text-amber-200 block text-sm font-serif">{currentMember.name}</span>
-                <span className="text-stone-400 font-mono text-[11px]">আইডি: {currentMember.id}</span>
-              </div>
-            </div>
-            <p className="text-xs text-stone-300/90 mb-3.5 leading-relaxed font-sans">
-              আপনার ডিজিটাল সদস্য সনদ সক্রিয় আছে। ক্লাবের নিয়মিত পাঠচক্র ও কার্যকলাপে অংশগ্রহণ নিশ্চিত করতে কার্ড প্রিন্ট করুন।
-            </p>
-            <button
-              onClick={onOpenMembership}
-              className="w-full bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold py-2.5 rounded-xs text-xs transition-colors cursor-pointer flex items-center justify-center space-x-1.5 shadow-sm"
-            >
-              <UserCheck className="w-3.5 h-3.5 mr-1" />
-              <span>সদস্য কার্ড দেখুন ও প্রিন্ট করুন</span>
-            </button>
-          </div>
-        ) : (
-          <div>
-            <h4 className="font-serif text-lg font-bold text-stone-100 mb-1.5 leading-snug">
-              সংশপ্তক সাহিত্য, দাবা ও পাঠচক্র ক্লাবে যোগ দিন
-            </h4>
-            <p className="text-xs text-stone-300/85 mb-4 leading-relaxed font-sans">
-              গুগল অ্যাকাউন্টের মাধ্যমে সহজ আবেদন সম্পন্ন করে তাৎক্ষণিক অফিসিয়াল ডিজিটাল সদস্য সনদ ও পরিচয়পত্র সংগ্রহ করুন।
-            </p>
-            <button
-              onClick={onOpenMembership}
-              className="w-full bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold py-2.5 rounded-xs text-xs transition-colors cursor-pointer text-center block shadow-sm tracking-wide"
-            >
-              Google দিয়ে সদস্যপদ আবেদন করুন
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* 2. Upcoming Club Events & Noticeboard (Desktop View) */}
-      <div className="hidden md:block bg-white border border-stone-200/90 p-4 sm:p-5 shadow-xs rounded-xs">
-        <div className="flex items-center justify-between pb-2.5 mb-3.5 border-b border-stone-100">
-          <h3 className="font-bold text-stone-900 text-base font-serif">
-            ক্লাব সূচি ও পাঠচক্র নোটিশ
-          </h3>
-          <span className="text-[11px] text-stone-400 font-mono">
-            সাপ্তাহিক সূচি
-          </span>
-        </div>
-
-        <div className="space-y-3">
-          {clubEvents.map((evt) => (
-            <div
-              key={evt.id}
-              className="p-3 bg-stone-50/70 border-l-2 border-[#790102] rounded-xs hover:bg-stone-50 transition-colors"
-            >
-              <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-bold text-[#790102] font-serif text-[11px] tracking-wide">
-                  {evt.wing}
-                </span>
-                <span className="text-stone-400 font-sans text-[11px]">
-                  {evt.date} · {evt.time}
-                </span>
-              </div>
-              <h4 className="font-serif text-xs sm:text-sm font-bold text-stone-900 leading-snug">
-                {evt.title}
-              </h4>
-              <p className="text-[11px] text-stone-500 mt-1 line-clamp-2 font-sans">
-                {evt.venue}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* 2. Mobile Quick Trigger: 3-Dot Noticeboard & Schedule Bar */}
       {onOpenNoticeboard && (
         <div
@@ -282,7 +185,75 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
         </div>
       </div>
 
+      {/* 1. Facebook Page Feed */}
+      <div className="bg-white border border-stone-200 rounded-xs shadow-xs overflow-hidden">
+        <div className="bg-[#1877F2] text-white px-4 py-2.5 flex items-center space-x-2">
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg>
+          <span className="font-semibold text-sm">সংশপ্তক - Facebook</span>
+        </div>
+        <div className="w-full min-h-[640px] bg-stone-50">
+          <iframe
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F61595433615675&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&lazy=true"
+            width="100%"
+            height="700"
+            style={{ border: 'none', overflow: 'hidden', width: '100%', minHeight: '640px' }}
+            scrolling="no"
+            frameBorder="0"
+            allowFullScreen
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            loading="lazy"
+            referrerPolicy="origin-when-cross-origin"
+            title="সংশপ্তক Facebook Page"
+          />
+        </div>
+        <div className="px-3 py-2.5 text-center border-t border-stone-200 space-y-1">
+          <a
+            href="https://www.facebook.com/profile.php?id=61595433615675"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-medium text-[#1877F2] hover:underline block"
+          >
+            Facebook পেজে সব পোস্ট দেখুন →
+          </a>
+          <p className="text-[10px] text-stone-500 leading-snug">
+            নোট: ব্রাউজারের ট্র্যাকিং প্রোটেকশন/কুকি ব্লক বা Facebook-এর সীমাবদ্ধতার কারণে টাইমলাইন এম্বেড না দেখালে উপরের লিংক থেকে সরাসরি পেজটি দেখুন।
+          </p>
+        </div>
+      </div>
+
+      {/* 5. Bespoke Editorial Publication Showcase Card */}
+      <div 
+        onClick={onOpenEpaper}
+        className="cursor-pointer group relative bg-stone-900 hover:bg-stone-950 text-white p-4 sm:p-5 rounded-xs border border-stone-800 transition-all duration-300 shadow-sm overflow-hidden"
+      >
+        <div className="flex gap-3.5 items-center">
+          {/* Magazine Cover Thumbnail */}
+          <div className="w-20 h-28 flex-shrink-0 rounded-xs overflow-hidden border border-amber-500/30 shadow-md group-hover:scale-105 transition-transform duration-300 bg-stone-950">
+            <img
+              src="/assets/sangsaptak-magazine-cover.jpg"
+              alt="সংশপ্তক বিশেষ প্রকাশনা প্রচ্ছদ"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+
+          <div className="flex-1 min-w-0 border-l border-stone-800 pl-3">
+            <span className="text-[10px] font-kona tracking-normal text-amber-300 font-medium block mb-1">
+              ডিজিটাল প্রকাশনা · ই-ম্যাগাজিন
+            </span>
+            <h4 className="text-sm sm:text-base font-bold font-serif text-stone-100 group-hover:text-amber-200 transition-colors leading-snug">
+              সংশপ্তক মুদ্রিত সংখ্যা ও দেয়াল পত্রিকা পড়ুন
+            </h4>
+            <p className="text-xs text-stone-400 mt-1.5 flex items-center gap-1 font-sans">
+              পাতা উল্টানোর পূর্ণাঙ্গ ডিজিটাল সংস্করণ <ChevronRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-1 transition-transform" />
+            </p>
+          </div>
+        </div>
+      </div>
       {/* 4. Student & Citizen Opinion Poll */}
+      {poll && (
       <div className="bg-white border border-stone-200/90 p-4 sm:p-5 shadow-xs rounded-xs">
         <div className="flex items-center justify-between pb-2 mb-3 border-b border-stone-100">
           <h3 className="font-bold text-stone-900 text-sm sm:text-base font-serif">
@@ -388,36 +359,8 @@ export const SidebarWidgets: React.FC<SidebarWidgetsProps> = ({
           </div>
         )}
       </div>
+      )}
 
-      {/* 5. Bespoke Editorial Publication Showcase Card */}
-      <div 
-        onClick={onOpenEpaper}
-        className="cursor-pointer group relative bg-stone-900 hover:bg-stone-950 text-white p-4 sm:p-5 rounded-xs border border-stone-800 transition-all duration-300 shadow-sm overflow-hidden"
-      >
-        <div className="flex gap-3.5 items-center">
-          {/* Magazine Cover Thumbnail */}
-          <div className="w-20 h-28 flex-shrink-0 rounded-xs overflow-hidden border border-amber-500/30 shadow-md group-hover:scale-105 transition-transform duration-300 bg-stone-950">
-            <img
-              src="/assets/sangsaptak-magazine-cover.jpg"
-              alt="সংশপ্তক বিশেষ প্রকাশনা প্রচ্ছদ"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          </div>
-
-          <div className="flex-1 min-w-0 border-l border-stone-800 pl-3">
-            <span className="text-[10px] font-mono tracking-widest uppercase text-amber-300 font-medium block mb-1">
-              ডিজিটাল প্রকাশনা · ই-ম্যাগাজিন
-            </span>
-            <h4 className="text-sm sm:text-base font-bold font-serif text-stone-100 group-hover:text-amber-200 transition-colors leading-snug">
-              সংশপ্তক মুদ্রিত সংখ্যা ও দেয়াল পত্রিকা পড়ুন
-            </h4>
-            <p className="text-xs text-stone-400 mt-1.5 flex items-center gap-1 font-sans">
-              পাতা উল্টানোর পূর্ণাঙ্গ ডিজিটাল সংস্করণ <ChevronRight className="w-3.5 h-3.5 text-amber-400 group-hover:translate-x-1 transition-transform" />
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

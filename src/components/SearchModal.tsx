@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Article } from '../types';
-import { mockArticles } from '../data/mockNewsData';
+import { useArticles } from '../context/ArticlesContext';
 import { toBanglaNumber } from '../utils/banglaUtils';
 import { Search, X, Clock, ArrowRight } from 'lucide-react';
 
@@ -15,6 +15,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onClose,
   onSelectArticle,
 }) => {
+  const { articles } = useArticles();
   const [query, setQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('সব');
 
@@ -35,7 +36,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     return art.categoryName || art.category || 'সংবাদ';
   };
 
-  const filteredArticles = mockArticles.filter((article) => {
+  const filteredArticles = articles.filter((article) => {
     const catName = getCategoryName(article);
     const matchesCat = selectedCategory === 'সব' || catName.includes(selectedCategory);
     const bodyText = getArticleBodyText(article);

@@ -1,0 +1,6 @@
+# Authors of Kona (কণা), listed as copyright holders.
+
+QNA Publication
+Md. Tanbin Islam Siyam / OmicronLab (Kalpurush, Bengali)
+Google Corporation (Liberation Serif, Latin)
+Red Hat, Inc. (Liberation Serif, Latin)

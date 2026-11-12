@@ -1,6 +1,5 @@
 import React from 'react';
-import { clubEvents } from '../data/mockNewsData';
-import { X, CalendarDays, MapPin, Clock, Phone, Mail, ChevronRight, UserCheck } from 'lucide-react';
+import { X, CalendarDays, Phone, Mail, UserCheck } from 'lucide-react';
 
 interface NoticeboardModalProps {
   isOpen: boolean;
@@ -53,47 +52,11 @@ export const NoticeboardModal: React.FC<NoticeboardModalProps> = ({
           </button>
         </div>
 
-        {/* Club Details & Schedule Banner */}
-        <div className="bg-stone-50 border-b border-stone-200 px-4 py-2.5 text-xs text-stone-700 space-y-1">
-          <div className="flex items-center space-x-1.5 text-stone-800 font-medium">
-            <MapPin className="w-3.5 h-3.5 text-[#790102] flex-shrink-0" />
-            <span>স্থান: প্রয়াস ভবন, ব্যাট বল চত্বর সংলগ্ন, ময়মনসিংহ</span>
-          </div>
-          <div className="flex items-center space-x-1.5 text-stone-600">
-            <Clock className="w-3.5 h-3.5 text-amber-700 flex-shrink-0" />
-            <span>কার্যদিবস: প্রতি শনিবার, বুধবার, বৃহস্পতিবার · বিকাল ৩টা - ৬টা</span>
-          </div>
-        </div>
-
-        {/* Scrollable Events Body */}
-        <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1 divide-y divide-stone-100">
-          {clubEvents.map((evt, idx) => (
-            <div
-              key={evt.id}
-              className={`pt-3.5 first:pt-0 ${idx === 0 ? '' : ''}`}
-            >
-              <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-serif font-bold text-[#790102] tracking-wide text-xs">
-                  {evt.wing}
-                </span>
-                <span className="text-[11px] text-stone-500 font-sans bg-stone-100 px-2 py-0.5 rounded-xs">
-                  {evt.date} · {evt.time}
-                </span>
-              </div>
-              <h4 className="font-serif text-sm sm:text-base font-bold text-stone-900 leading-snug mb-1">
-                {evt.title}
-              </h4>
-              <p className="text-xs text-stone-600 leading-relaxed font-sans mb-1.5">
-                {evt.description}
-              </p>
-              <div className="text-[11px] text-stone-500 flex flex-wrap items-center justify-between gap-1 pt-1">
-                <span className="text-stone-700 font-medium">স্থান: {evt.venue}</span>
-                {evt.leader && (
-                  <span className="text-amber-800 font-medium">সমন্বয়ক: {evt.leader}</span>
-                )}
-              </div>
-            </div>
-          ))}
+        {/* Empty Noticeboard State */}
+        <div className="p-8 flex flex-col items-center justify-center text-center">
+          <CalendarDays className="w-12 h-12 text-stone-300 mb-3" />
+          <p className="text-stone-500 text-sm">কোনো সূচি বা পাঠচক্র নোটিশ নেই।</p>
+          <p className="text-xs text-stone-400 mt-1">এডমিন প্যানেল থেকে সূচি যোগ করুন।</p>
         </div>
 
         {/* Modal Footer with Contact & Membership Action */}

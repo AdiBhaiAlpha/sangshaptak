@@ -10,7 +10,8 @@ import {
   Newspaper,
   ChevronUp,
   CreditCard,
-  BookOpen
+  BookOpen,
+  IdCard
 } from 'lucide-react';
 
 interface FooterProps {
@@ -82,15 +83,17 @@ export const Footer: React.FC<FooterProps> = ({
             {onOpenMembership && (
               <button
                 onClick={onOpenMembership}
-                className="border border-amber-400/50 hover:bg-amber-400 hover:text-stone-950 text-amber-300 text-xs font-medium px-3.5 py-1.5 rounded-xs transition-colors cursor-pointer"
+                className="border border-amber-400/50 hover:bg-amber-400 hover:text-stone-950 text-amber-300 p-1.5 rounded-xs transition-colors cursor-pointer flex items-center"
+                title="সদস্য কার্ড গ্রহণ ও আবেদন"
+                aria-label="সদস্য কার্ড গ্রহণ ও আবেদন"
               >
-                সদস্য কার্ড গ্রহণ ও আবেদন
+                <IdCard size={14} />
               </button>
             )}
 
             <div className="flex items-center space-x-1.5">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/profile.php?id=61595433615675"
                 target="_blank"
                 rel="noreferrer"
                 className="w-8 h-8 rounded-full bg-[#1877f2] text-white flex items-center justify-center hover:opacity-90 transition"
@@ -185,12 +188,12 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="mt-8 pt-6 border-t border-gray-800 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-gray-400">
           <div>
             <h5 className="font-serif font-bold text-gray-200 text-sm mb-1.5">
-              পরিচালনা ও সম্পাদনা পরিষদ
+              ব্যবস্থাপনা কমিটি
             </h5>
             <p className="leading-relaxed space-y-1">
-              আহ্বায়ক: <strong className="text-gray-150 text-white">চিত্রণ ভট্টাচার্য</strong><br />
-              যুগ্ম আহ্বায়ক: <strong className="text-gray-150 text-white">আওসাফ আহমেদ</strong><br />
-              সদস্য সচিব: <strong className="text-gray-150 text-white">আনিকা হোসেন জয়ন্তী</strong><br />
+              উপদেষ্টা: <strong className="text-amber-200">তানজিল হোসেন মুণিম</strong><br />
+              আহ্বায়ক: <strong className="text-white">চিত্রণ ভট্টাচার্য</strong><br />
+              সদস্য: <strong className="text-amber-200">আওসাফ আহমেদ</strong>, <strong className="text-amber-200">হোসাইন শাহ মাহিন</strong><br />
               প্রকাশনা ও মুখপত্র: <strong className="text-gray-200">সংশপ্তক</strong>
             </p>
           </div>
@@ -232,19 +235,28 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* Bottom Copyright Bar */}
       <div className="bg-black/90 py-3.5 px-4 text-xs text-gray-500 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-2 text-center">
           <div>
             স্বত্ব © ২০২৬ সংশপ্তক • <span className="text-gray-300 font-serif">সমাজতান্ত্রিক ছাত্র ফ্রন্ট, ময়মনসিংহ জেলা শাখার মুখপত্র</span>। সর্বস্বত্ব সংরক্ষিত।
           </div>
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={scrollToTop}
-              className="bg-gray-800 hover:bg-[#790102] text-white p-1 rounded transition cursor-pointer"
-              title="উপরে যান"
+          <div>
+            Developed by{' '}
+            <a
+              href="https://facebook.com/ssfadi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-300 hover:text-white underline"
             >
-              <ChevronUp className="w-4 h-4" />
-            </button>
+              Chitron Bhattacharjee
+            </a>
           </div>
+          <button
+            onClick={scrollToTop}
+            className="bg-gray-800 hover:bg-[#790102] text-white p-1 rounded transition cursor-pointer"
+            title="উপরে যান"
+          >
+            <ChevronUp className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </footer>

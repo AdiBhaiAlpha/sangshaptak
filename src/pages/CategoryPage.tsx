@@ -1,16 +1,20 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { SEO } from '../components/SEO';
-import { mockArticles } from '../data/mockNewsData';
+import { useArticles } from '../context/ArticlesContext';
+import { categories } from '../data/siteData';
 
 export default function CategoryPage() {
   const { slug } = useParams();
-  const items = mockArticles.filter((a) => a.category === slug || a.categoryName === slug);
+  const { articles } = useArticles();
+  const cat = categories.find((c) => c.slug === slug || c.id === slug);
+  const title = cat ? cat.name : (slug || 'বিভাগ');
+  const items = articles.filter((a) => a.category === slug || a.categoryName === slug || a.categoryName === title);
   return (
     <div>
-      <SEO title={slug || 'বিভাগ'} />
+      <SEO title={title} />
       <div className="bg-white border border-gray-200 p-4 mb-5 rounded shadow-xs">
-        <h1 className="font-serif text-2xl font-bold text-gray-950">{slug}</h1>
+        <h1 className="font-serif text-2xl font-bold text-gray-950 border-l-4 border-[#790102] pl-3">{title}</h1>
       </div>
       <div className="space-y-4">
         {items.length === 0 && <div className="bg-white p-8 text-center text-gray-500 rounded border">কোনো লেখা নেই</div>}

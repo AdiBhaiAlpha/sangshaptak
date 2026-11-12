@@ -24,5 +24,5 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "exclude": ["dist"]
+  "exclude": ["dist", "Ssf-mym-site-main", "node_modules"]
 }

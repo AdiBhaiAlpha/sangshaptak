@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Menu,
   X,
@@ -7,20 +8,27 @@ import {
   BookOpen,
   CreditCard,
   UserCheck,
+  IdCard,
   ChevronDown,
   Layers,
   Facebook,
   Twitter,
   Youtube,
   ShieldAlert,
-  Sparkles,
-  Award,
+  Brain,
+  Music,
+  Trophy,
+  Palette,
+  Newspaper,
+  MapPin,
+  Clock,
   MoreVertical,
-  CalendarDays
+  CalendarDays,
+  User
 } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { CategoryId, ClubMember } from '../types';
-import { categories } from '../data/mockNewsData';
+import { categories } from '../data/siteData';
 import { getBengaliFormattedToday } from '../utils/banglaUtils';
 
 interface HeaderProps {
@@ -46,11 +54,17 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenMembership,
   onOpenNoticeboard,
 }) => {
+  const navigate = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [megaMenuOpen, setMegaMenuOpen] = useState(false);
 
-  const today = getBengaliFormattedToday();
+  const [today, setToday] = useState(getBengaliFormattedToday());
+  useEffect(() => {
+    const tick = () => setToday(getBengaliFormattedToday());
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
 
   // Scroll listener for sticky navigation
   useEffect(() => {
@@ -75,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Left: Date Display */}
             <div className="col-span-3 flex items-center text-xs text-gray-500 font-sans">
               <Calendar className="w-3.5 h-3.5 mr-1.5 text-stone-400" />
-              <span>{today.gregorian} ({today.banglaEra})</span>
+              <span className="font-kona">{today.gregorian} ({today.banglaEra})</span>
             </div>
 
             {/* Center: Brand Masthead */}
@@ -85,39 +99,8 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
 
-            {/* Right: Membership Card & Digital Publications */}
-            <div className="col-span-3 flex flex-col items-end space-y-1.5">
-              <div className="flex items-center space-x-2">
-                {/* Google Sign-in / Member Card Button */}
-                <button
-                  onClick={onOpenMembership}
-                  className="px-3.5 py-1.5 text-xs font-bold bg-[#790102] hover:bg-red-800 text-white rounded transition cursor-pointer flex items-center space-x-1.5 shadow-sm"
-                  title="সদস্যপদ আবেদন ও আইডি কার্ড"
-                >
-                  {currentMember ? (
-                    <>
-                      <UserCheck size={14} className="text-emerald-400" />
-                      <span>আইডি: {currentMember.id}</span>
-                    </>
-                  ) : (
-                    <>
-                      <CreditCard size={14} className="text-yellow-300" />
-                      <span>সদস্যপদ আবেদন / কার্ড</span>
-                    </>
-                  )}
-                </button>
-
-                {/* E-magazine / Publications Reader */}
-                <button
-                  onClick={onOpenEpaper}
-                  className="px-2.5 py-1.5 text-xs font-semibold bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 rounded transition cursor-pointer flex items-center space-x-1"
-                  title="সংশপ্তক ডিজিটাল প্রকাশনা"
-                >
-                  <BookOpen size={13} className="text-[#790102]" />
-                  <span>ই-ম্যাগাজিন</span>
-                </button>
-              </div>
-            </div>
+            {/* Right: empty placeholder to keep grid balance */}
+            <div className="col-span-3" />
           </div>
         </div>
 
@@ -127,39 +110,94 @@ export const Header: React.FC<HeaderProps> = ({
             isSticky ? 'sticky top-0 z-40 shadow-md' : ''
           }`}
         >
-          <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-            <ul className="flex items-center space-x-1 text-sm font-semibold text-gray-800 overflow-x-auto scrollbar-none py-1">
-              <li>
+          <div className="max-w-7xl mx-auto px-4 relative">
+            <nav aria-label="Primary navigation" className="py-3">
+              {/* First row (longer) */}
+              <div className="flex flex-wrap justify-center items-center gap-2 mb-2 w-fit mx-auto">
                 <button
                   onClick={onGoHome}
-                  className={`px-3 py-2 transition border-b-2 cursor-pointer ${
+                  aria-current={currentCategory === 'all' || currentCategory === 'latest' ? 'page' : undefined}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:bg-white/90 ${
                     currentCategory === 'all' || currentCategory === 'latest'
-                      ? 'border-[#790102] text-[#790102]'
-                      : 'border-transparent hover:text-[#790102]'
+                      ? 'bg-[#790102] text-white shadow-sm hover:bg-white hover:text-[#790102]'
+                      : 'text-gray-800 hover:bg-stone-100/70'
                   }`}
                 >
-                  সর্বশেষ
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="text-sm">সর্বশেষ</span>
                 </button>
-              </li>
 
-              {categories.filter(c => c.id !== 'mymensingh').map((cat) => (
-                <li key={cat.id}>
+                {categories.filter(c => ['mouthpiece','literature','study_circle'].includes(c.id)).map((cat) => {
+                  const Icon =
+                    cat.id === 'mouthpiece' ? Newspaper :
+                    cat.id === 'literature' ? Palette :
+                    cat.id === 'study_circle' ? Brain :
+                    Newspaper;
+                  return (
                   <button
+                    key={cat.id}
                     onClick={() => onSelectCategory(cat.id)}
-                    className={`px-3 py-2 transition border-b-2 cursor-pointer whitespace-nowrap ${
+                    aria-current={currentCategory === cat.id ? 'page' : undefined}
+                    className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:bg-white/90 whitespace-nowrap ${
                       currentCategory === cat.id
-                        ? 'border-[#790102] text-[#790102] font-bold'
-                        : 'border-transparent hover:text-[#790102]'
+                        ? 'bg-[#790102] text-white shadow-sm hover:bg-white hover:text-[#790102]'
+                        : 'text-gray-800 hover:bg-stone-100/70'
                     }`}
                   >
-                    {cat.name}
+                    <Icon className="w-3.5 h-3.5" />
+                    <span className="text-sm">{cat.name}</span>
                   </button>
-                </li>
-              ))}
-            </ul>
+                  );
+                })}
+              </div>
 
-            {/* Right icons: Search & Mega Menu */}
-            <div className="flex items-center space-x-2 pl-2">
+              {/* Second row (shorter), same horizontal center */}
+              <div className="flex flex-wrap justify-center items-center gap-2 w-fit mx-auto">
+                {categories.filter(c => ['sports','songs_poetry','publications'].includes(c.id)).map((cat) => {
+                  const Icon =
+                    cat.id === 'sports' ? Trophy :
+                    cat.id === 'songs_poetry' ? Music :
+                    cat.id === 'publications' ? Newspaper :
+                    Newspaper;
+                  return (
+                  <button
+                    key={cat.id}
+                    onClick={() => onSelectCategory(cat.id)}
+                    aria-current={currentCategory === cat.id ? 'page' : undefined}
+                    className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-sm font-semibold transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-md hover:bg-white/90 whitespace-nowrap ${
+                      currentCategory === cat.id
+                        ? 'bg-[#790102] text-white shadow-sm hover:bg-white hover:text-[#790102]'
+                        : 'text-gray-800 hover:bg-stone-100/70'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span className="text-sm">{cat.name}</span>
+                  </button>
+                  );
+                })}
+              </div>
+            </nav>
+
+            {/* Right icons: Membership, E-magazine, Search & Mega Menu */}
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center space-x-2">
+              <button
+                onClick={() => (currentMember ? navigate('/profile') : navigate('/login'))}
+                className="p-2 text-[#790102] transition cursor-pointer flex items-center hover:scale-110"
+                title={currentMember ? `আইডি: ${currentMember.id}` : 'সদস্যপদ আবেদন ও আইডি কার্ড'}
+                aria-label={currentMember ? `আইডি: ${currentMember.id}` : 'সদস্যপদ আবেদন ও আইডি কার্ড'}
+              >
+                <IdCard size={16} className="text-[#790102]" />
+              </button>
+
+              <button
+                onClick={onOpenEpaper}
+                className="p-2 text-gray-800 transition cursor-pointer flex items-center hover:text-[#790102] hover:scale-110"
+                title="সংশপ্তক ডিজিটাল প্রকাশনা"
+                aria-label="ই-ম্যাগাজিন"
+              >
+                <BookOpen size={16} className="text-[#790102]" />
+              </button>
+
               <button
                 onClick={onOpenSearch}
                 className="p-1.5 text-gray-700 hover:text-[#790102] hover:bg-gray-100 rounded-full transition cursor-pointer"
@@ -272,7 +310,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <li>
                     <button
                       onClick={() => {
-                        onSelectCategory('chess');
+                        onSelectCategory('sports');
                         setMegaMenuOpen(false);
                       }}
                       className="hover:text-[#790102]"
@@ -317,7 +355,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={() => {
                     setMegaMenuOpen(false);
-                    onOpenMembership();
+                    currentMember ? navigate('/profile') : navigate('/login');
                   }}
                   className="bg-[#790102] hover:bg-red-800 text-white font-semibold py-1.5 px-3 rounded text-xs transition"
                 >
@@ -358,11 +396,20 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div className="flex items-center space-x-1.5 sm:space-x-2">
             <button
-              onClick={onOpenMembership}
+              onClick={() => (currentMember ? navigate('/profile') : navigate('/login'))}
               className="bg-[#790102] text-white text-[11px] font-bold px-2 py-1 rounded-xs flex items-center space-x-1"
             >
               <CreditCard size={12} className="text-yellow-300" />
               <span>{currentMember ? 'কার্ড' : 'সদস্যপদ'}</span>
+            </button>
+
+            <button
+              onClick={() => navigate('/profile')}
+              className="p-1.5 text-gray-700 hover:text-[#790102]"
+              title="প্রোফাইল"
+              aria-label="প্রোফাইল"
+            >
+              <User size={18} />
             </button>
 
             <button
@@ -436,7 +483,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);
-                      onOpenMembership();
+                      currentMember ? navigate('/profile') : navigate('/login');
                     }}
                     className="w-full bg-[#790102] text-white text-xs font-bold py-2 px-3 rounded flex items-center justify-center space-x-1.5"
                   >
@@ -469,6 +516,16 @@ export const Header: React.FC<HeaderProps> = ({
                     </button>
                   ))}
                   <hr className="my-2 border-gray-200" />
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      navigate('/profile');
+                    }}
+                    className="w-full text-left py-1.5 text-[#790102] font-semibold flex items-center space-x-2"
+                  >
+                    <User size={16} />
+                    <span>প্রোফাইল</span>
+                  </button>
                   {onOpenNoticeboard && (
                     <button
                       onClick={() => {

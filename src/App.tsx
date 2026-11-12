@@ -8,9 +8,11 @@ const CategoryPage = lazy(() => import('./pages/CategoryPage'));
 const CampusPage = lazy(() => import('./pages/CampusPage'));
 const EpaperPage = lazy(() => import('./pages/EpaperPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 const SiteUrlPage = lazy(() => import('./pages/SiteUrlPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const ConstitutionPage = lazy(() => import('./pages/ConstitutionPage'));
 const MembershipPage = lazy(() => import('./pages/MembershipPage'));
 const EventsPage = lazy(() => import('./pages/EventsPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
@@ -35,9 +37,11 @@ export default function App() {
         <Route path="/campus/:name" element={<Suspense fallback={<Fallback />}><CampusPage /></Suspense>} />
         <Route path="/epaper" element={<Suspense fallback={<Fallback />}><EpaperPage /></Suspense>} />
         <Route path="/dashboard" element={<Suspense fallback={<Fallback />}><DashboardPage /></Suspense>} />
+        <Route path="/admin" element={<Suspense fallback={<Fallback />}><AdminPage /></Suspense>} />
         <Route path="/site-url" element={<Suspense fallback={<Fallback />}><SiteUrlPage /></Suspense>} />
         <Route path="/siteurl" element={<Suspense fallback={<Fallback />}><SiteUrlPage /></Suspense>} />
         <Route path="/about" element={<Suspense fallback={<Fallback />}><AboutPage /></Suspense>} />
+        <Route path="/constitution" element={<Suspense fallback={<Fallback />}><ConstitutionPage /></Suspense>} />
         <Route path="/contact" element={<Suspense fallback={<Fallback />}><ContactPage /></Suspense>} />
         <Route path="/membership" element={<Suspense fallback={<Fallback />}><MembershipPage /></Suspense>} />
         <Route path="/events" element={<Suspense fallback={<Fallback />}><EventsPage /></Suspense>} />

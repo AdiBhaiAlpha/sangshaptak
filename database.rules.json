@@ -1,0 +1,190 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "_README": {
+      ".read": true
+    },
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === $uid"
+        },
+        "firebaseUid": {
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "username": {
+          ".validate": "newData.isString() && newData.val().length <= 50"
+        },
+        "email": {
+          ".validate": "newData.isString() && newData.val() === auth.token.email"
+        },
+        "usernameLower": {
+          ".validate": "newData.isString() && newData.val().length <= 50"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "lastLoginAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "updatedAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "usage": {
+          "$day": {
+            ".write": false
+          }
+        }
+      }
+    },
+    "payments": {
+      "$paymentId": {
+        ".read": "auth != null && data.child('uid').val() === auth.uid",
+        ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid) || (data.exists() && data.child('uid').val() === auth.uid && newData.child('uid').val() === auth.uid))",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "username": {
+          ".validate": "newData.isString()"
+        },
+        "termuxUsername": {
+          ".validate": "newData.isString()"
+        },
+        "senderNumber": {
+          ".validate": "newData.isString()"
+        },
+        "remitterNumber": {
+          ".validate": "newData.isString()"
+        },
+        "plan": {
+          ".validate": "newData.isString()"
+        },
+        "durationDays": {
+          ".validate": "newData.isNumber()"
+        },
+        "amount": {
+          ".validate": "newData.isNumber()"
+        },
+        "currency": {
+          ".validate": "newData.isString()"
+        },
+        "method": {
+          ".validate": "newData.isString()"
+        },
+        "transactionId": {
+          ".validate": "newData.isString()"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "updatedAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "status": {
+          ".write": false
+        },
+        "verifiedAt": {
+          ".write": false
+        },
+        "verifiedBy": {
+          ".write": false
+        },
+        "reason": {
+          ".write": false
+        },
+        "expiresAt": {
+          ".write": false
+        }
+      }
+    },
+    "admins": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      "$uid": {
+        ".write": false
+      }
+    },
+    "articles": {
+      ".read": true,
+      "$articleId": {
+        ".write": "auth != null && (auth.token.email === 'chitronbhattacharjee@gmail.com' || root.child('admins').child(auth.uid).child('active').val() === true)",
+        "comments": {
+          ".read": true,
+          "$commentId": {
+            ".write": "auth != null",
+            ".validate": "newData.hasChildren(['authorName', 'text', 'timestamp']) && newData.child('authorName').isString() && newData.child('text').isString() && newData.child('text').val().length <= 1000 && newData.child('timestamp').isNumber()"
+          }
+        }
+      }
+    },
+    "bot": {
+      ".read": true,
+      ".write": false
+    },
+    "bot-selftest": {
+      ".read": true,
+      ".write": false
+    },
+    "shipu-messsenger-bot": {
+      ".read": true,
+      ".write": false
+    },
+    "chatroom": {
+      "$roomId": {
+        ".read": "auth != null && root.child('chatroom').child($roomId).child('members').child(auth.uid).val() === true",
+        ".write": false,
+        "members": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && newData.val() === true",
+            ".validate": "newData.val() === true"
+          }
+        },
+        "messages": {
+          ".indexOn": [
+            "timestamp"
+          ],
+          "$messageId": {
+            ".write": "auth != null && root.child('chatroom').child($roomId).child('members').child(auth.uid).val() === true && ((!data.exists() && newData.child('senderId').val() === auth.uid) || (data.exists() && (data.child('senderId').val() === auth.uid || newData.child('deletedForEveryone').val() === true)))",
+            ".validate": "newData.hasChildren(['id', 'senderId', 'senderName', 'text', 'timestamp']) && newData.child('id').val() === $messageId && newData.child('senderId').isString() && newData.child('senderName').isString() && newData.child('text').isString() && newData.child('text').val().length <= 5000 && newData.child('timestamp').isNumber()"
+          }
+        },
+        "presence": {
+          "$participantId": {
+            ".write": "auth != null && auth.uid === $participantId && root.child('chatroom').child($roomId).child('members').child(auth.uid).val() === true",
+            ".validate": "newData.hasChildren(['participantId', 'nickname', 'online']) && newData.child('participantId').val() === auth.uid && newData.child('nickname').isString() && newData.child('online').isBoolean()"
+          }
+        },
+        "meta": {
+          ".write": false,
+          ".validate": "newData.hasChildren(['roomId', 'createdAt'])"
+        }
+      }
+    },
+    "providers": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      ".write": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true"
+    },
+    "services": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      ".write": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true"
+    },
+    "settings": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      ".write": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true"
+    },
+    "sync_history": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      ".write": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true"
+    },
+    "provider_logs": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      ".write": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true"
+    },
+    "activity_logs": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true",
+      ".write": "auth != null && root.child('admins').child(auth.uid).child('active').val() === true"
+    }
+  }
+}

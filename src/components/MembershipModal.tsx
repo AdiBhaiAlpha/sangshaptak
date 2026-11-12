@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ClubMember } from '../types';
+import { secondaryAuth, googleProvider } from '../lib/firebase';
+import { signInWithPopup, signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { toBanglaNumber } from '../utils/banglaUtils';
 import { 
   X, 
@@ -102,18 +104,69 @@ export const MembershipModal: React.FC<MembershipModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Handle Google Login simulation
-  const handleGoogleSignIn = () => {
-    const mockGoogleProfile = {
-      name: 'চিত্রণ ভট্টাচার্য',
-      email: 'chitronbhattacharjee@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
-    };
-    setGoogleUser(mockGoogleProfile);
-    setNameBn(mockGoogleProfile.name);
-    setNameEn('Chitron Bhattacharjee');
-    setAvatarUrl(mockGoogleProfile.avatar);
-    setActiveTab('form');
+  // Handle redirect result (when popup is blocked)
+  useEffect(() => {
+    getRedirectResult(secondaryAuth)
+      .then((result) => {
+        if (result?.user) {
+          const u = result.user;
+          const profile = {
+            name: u.displayName || '',
+            email: u.email || '',
+            avatar: u.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+          };
+          setGoogleUser(profile);
+          setNameBn(profile.name);
+          setNameEn(profile.name);
+          setAvatarUrl(profile.avatar);
+          setActiveTab('form');
+        }
+      })
+      .catch((e) => console.error('Redirect result error', e));
+  }, []);
+
+  // Google sign-in entry: real Firebase account picker
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(secondaryAuth, googleProvider);
+      const u = result.user;
+      const profile = {
+        name: u.displayName || '',
+        email: u.email || '',
+        avatar: u.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+      };
+      setGoogleUser(profile);
+      setNameBn(profile.name);
+      setNameEn(profile.name);
+      setAvatarUrl(profile.avatar);
+      setActiveTab('form');
+    } catch (e: any) {
+      console.error('Google sign-in failed', e);
+      const code = String(e?.code || '');
+      const redirectCodes = [
+        'auth/popup-blocked',
+        'auth/popup-closed-by-user',
+        'auth/cancelled-popup-request',
+        'auth/operation-not-supported-in-this-environment',
+        'auth/web-storage-unsupported',
+        'auth/internal-error',
+      ];
+      if (redirectCodes.includes(code)) {
+        try {
+          await signInWithRedirect(secondaryAuth, googleProvider);
+          return;
+        } catch (re: any) {
+          console.error('Redirect failed', re);
+          if (code === 'auth/popup-blocked') {
+            alert('ব্রাউজার পপ-আপ ব্লক করেছে। সাইন-ইনের জন্য এই সাইটের পপ-আপ অনুমতি দিন, তারপর আবার চেষ্টা করুন।');
+            return;
+          }
+          alert('Google সাইন-ইন ব্যর্থ হয়েছে। ' + (re?.message || e?.message || ''));
+          return;
+        }
+      }
+      alert('Google সাইন-ইন ব্যর্থ হয়েছে। ' + (e?.message || ''));
+    }
   };
 
   const handleToggleWing = (wingLabel: string) => {
@@ -527,22 +580,7 @@ export const MembershipModal: React.FC<MembershipModalProps> = ({
                 </span>
               </button>
 
-              <div className="mt-6 flex items-center justify-center space-x-4 text-xs text-gray-500">
-                <span className="flex items-center">
-                  <CheckCircle className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-                  তাত্ক্ষণিক আইডি
-                </span>
-                <span>•</span>
-                <span className="flex items-center">
-                  <Printer className="w-3.5 h-3.5 mr-1 text-blue-600" />
-                  প্রিন্টযোগ্য কার্ড
-                </span>
-                <span>•</span>
-                <span className="flex items-center">
-                  <Upload className="w-3.5 h-3.5 mr-1 text-purple-600" />
-                  ছবি আপলোড
-                </span>
-              </div>
+
             </div>
           )}
 

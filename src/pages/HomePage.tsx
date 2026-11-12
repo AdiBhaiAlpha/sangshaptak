@@ -1,50 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { Article, CategoryId, ClubMember } from '../types';
+import { useOutletContext } from 'react-router-dom';
+import { Article, CategoryId } from '../types';
 import { 
-  mockArticles, 
-  mockPoll, 
+  poll, 
   categories 
-} from '../data/mockNewsData';
+} from '../data/siteData';
+import { useArticles } from '../context/ArticlesContext';
+import { useMember } from '../context/MemberContext';
+import type { AppLayoutOutletContext } from '../components/layout/AppLayout';
 
-import { Header } from '../components/Header';
 import { EventDarkBox } from '../components/EventDarkBox';
 import { LeadNewsSection } from '../components/LeadNewsSection';
 import { SidebarWidgets } from '../components/SidebarWidgets';
 import { CategorySection } from '../components/CategorySection';
 import { ArticleDetailView } from '../components/ArticleDetailView';
 import { EpaperView } from '../components/EpaperView';
-import { SearchModal } from '../components/SearchModal';
-import { ConverterModal } from '../components/ConverterModal';
-import { MembershipModal } from '../components/MembershipModal';
-import { NoticeboardModal } from '../components/NoticeboardModal';
-import { Footer } from '../components/Footer';
 
 import { ArrowLeft, Clock, MapPin, School } from 'lucide-react';
 import { toBanglaNumber } from '../utils/banglaUtils';
 
 export default function HomePage() {
+  const { articles } = useArticles();
+  const { member: currentMember } = useMember();
+  let layout: Partial<AppLayoutOutletContext> = {};
+  try {
+    layout = useOutletContext<AppLayoutOutletContext>() || {};
+  } catch {
+    layout = {};
+  }
+  const openMembership = layout.openMembership || (() => {});
+  const openSearch = layout.openSearch || (() => {});
+  const openConverter = layout.openConverter || (() => {});
+  const openNoticeboard = layout.openNoticeboard || (() => {});
+  const openEpaper = layout.openEpaper || (() => {});
+
   // Navigation / View states
   const [currentView, setCurrentView] = useState<'home' | 'article' | 'epaper' | 'category' | 'campus'>('home');
-  const [selectedArticle, setSelectedArticle] = useState<Article>(mockArticles[0]);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(articles[0] ?? null);
   const [activeCategoryId, setActiveCategoryId] = useState<CategoryId>('mouthpiece');
   const [categoryDisplayName, setCategoryDisplayName] = useState<string>('মুখপত্র ও সম্পাদকীয়');
   const [selectedCampus, setSelectedCampus] = useState<string>('');
-
-  // Modals state
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  const [isConverterOpen, setIsConverterOpen] = useState<boolean>(false);
-  const [isMembershipOpen, setIsMembershipOpen] = useState<boolean>(false);
-  const [isNoticeboardOpen, setIsNoticeboardOpen] = useState<boolean>(false);
-
-  // Club Member persistence in localStorage
-  const [currentMember, setCurrentMember] = useState<ClubMember | null>(() => {
-    try {
-      const saved = localStorage.getItem('samshaptak_member');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
 
   // Scroll to top on view changes
   useEffect(() => {
@@ -52,22 +47,22 @@ export default function HomePage() {
   }, [currentView, selectedArticle]);
 
   // Lead and sub-lead curation
-  const leadArticle = mockArticles.find((a) => a.isLead) || mockArticles[0];
-  const subLeadArticles = mockArticles.filter((a) => a.id !== leadArticle.id).slice(0, 4);
-  const sideLeadArticles = mockArticles.filter((a) => a.id !== leadArticle.id && !subLeadArticles.some((s) => s.id === a.id)).slice(0, 3);
+  const leadArticle = articles.find((a) => a.isLead) || articles[0];
+  const subLeadArticles = leadArticle ? articles.filter((a) => a.id !== leadArticle.id).slice(0, 4) : [];
+  const sideLeadArticles = leadArticle ? articles.filter((a) => a.id !== leadArticle.id && !subLeadArticles.some((s) => s.id === a.id)).slice(0, 3) : [];
 
   // Grouped by Club Wings
-  const mouthpieceArticles = mockArticles.filter((a) => a.category === 'mouthpiece');
-  const chessArticles = mockArticles.filter((a) => a.category === 'chess');
-  const studyCircleArticles = mockArticles.filter((a) => a.category === 'study_circle');
-  const literatureArticles = mockArticles.filter((a) => a.category === 'literature');
-  const songsPoetryArticles = mockArticles.filter((a) => a.category === 'songs_poetry');
-  const publicationArticles = mockArticles.filter((a) => a.category === 'publications');
-  const mymensinghArticles = mockArticles.filter((a) => a.category === 'mymensingh');
+  const mouthpieceArticles = articles.filter((a) => a.category === 'mouthpiece');
+  const sportsArticles = articles.filter((a) => a.category === 'sports');
+  const studyCircleArticles = articles.filter((a) => a.category === 'study_circle');
+  const literatureArticles = articles.filter((a) => a.category === 'literature');
+  const songsPoetryArticles = articles.filter((a) => a.category === 'songs_poetry');
+  const publicationArticles = articles.filter((a) => a.category === 'publications');
+  const mymensinghArticles = articles.filter((a) => a.category === 'mymensingh');
 
   // Latest vs Most Read
-  const latestArticles = [...mockArticles];
-  const mostReadArticles = [...mockArticles].sort((a, b) => (b.viewsCount || 0) - (a.viewsCount || 0));
+  const latestArticles = [...articles];
+  const mostReadArticles = [...articles].sort((a, b) => (b.viewsCount || 0) - (a.viewsCount || 0));
 
   // Handlers
   const handleSelectArticle = (article: Article) => {
@@ -111,27 +106,8 @@ export default function HomePage() {
     }
   };
 
-  const handleTopicClick = (topic: string) => {
-    setIsSearchOpen(true);
-  };
-
-  const handleSaveMember = (member: ClubMember) => {
-    setCurrentMember(member);
-    try {
-      localStorage.setItem('samshaptak_member', JSON.stringify(member));
-    } catch (e) {
-      console.error('Failed to save member in localStorage', e);
-    }
-  };
-
-  const handleLogoutMember = () => {
-    setCurrentMember(null);
-    try {
-      localStorage.removeItem('samshaptak_member');
-    } catch (e) {
-      console.error('Failed to remove member from localStorage', e);
-    }
-    setIsMembershipOpen(false);
+  const handleTopicClick = (_topic: string) => {
+    openSearch();
   };
 
   // If in E-paper / E-magazine view
@@ -149,7 +125,7 @@ export default function HomePage() {
           <div className="bg-white p-4 sm:p-6 rounded border border-gray-200 shadow-xs">
             <ArticleDetailView
               article={selectedArticle}
-              relatedArticles={mockArticles.filter(
+              relatedArticles={articles.filter(
                 (a) => a.id !== selectedArticle.id && a.category === selectedArticle.category
               )}
               onSelectArticle={handleSelectArticle}
@@ -187,7 +163,7 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               <div className="lg:col-span-8 space-y-4">
-                {mockArticles.map((art) => (
+                {articles.map((art) => (
                   <div
                     key={art.id}
                     onClick={() => handleSelectArticle(art)}
@@ -215,10 +191,10 @@ export default function HomePage() {
                         </p>
                       </div>
                       <div className="flex items-center justify-between text-xs text-gray-400 pt-2 border-t border-gray-100 mt-2">
-                        <span>{art.author.name}</span>
+                        <span>{art?.author && typeof art.author === 'object' ? art.author.name : (typeof art?.author === 'string' ? art.author : 'সংশপ্তক প্রতিনিধি')}</span>
                         <span className="flex items-center">
                           <Clock className="w-3 h-3 mr-1" />
-                          {toBanglaNumber(art.publishedTime)}
+                          {toBanglaNumber(art.publishedTime || '')}
                         </span>
                       </div>
                     </div>
@@ -230,12 +206,12 @@ export default function HomePage() {
                 <SidebarWidgets
                   latestArticles={latestArticles}
                   mostReadArticles={mostReadArticles}
-                  poll={mockPoll}
+                  poll={poll}
                   currentMember={currentMember}
                   onSelectArticle={handleSelectArticle}
                   onOpenEpaper={() => setCurrentView('epaper')}
-                  onOpenMembership={() => setIsMembershipOpen(true)}
-                  onOpenNoticeboard={() => setIsNoticeboardOpen(true)}
+                  onOpenMembership={openMembership}
+                  onOpenNoticeboard={openNoticeboard}
                   onFilterCampus={handleFilterCampus}
                 />
               </div>
@@ -271,7 +247,7 @@ export default function HomePage() {
             {/* Category Articles Grid & Sidebar */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               <div className="lg:col-span-8 space-y-4">
-                {mockArticles
+                {articles
                   .filter((a) => a.category === activeCategoryId || a.categoryName === categoryDisplayName)
                   .map((art) => (
                     <div
@@ -299,17 +275,17 @@ export default function HomePage() {
                           </p>
                         </div>
                         <div className="flex items-center justify-between text-xs text-gray-400 pt-2 border-t border-gray-100 mt-2">
-                          <span>{art.author.name}</span>
+                          <span>{art?.author && typeof art.author === 'object' ? art.author.name : (typeof art?.author === 'string' ? art.author : 'সংশপ্তক প্রতিনিধি')}</span>
                           <span className="flex items-center">
                             <Clock className="w-3 h-3 mr-1" />
-                            {toBanglaNumber(art.publishedTime)}
+                            {toBanglaNumber(art.publishedTime || '')}
                           </span>
                         </div>
                       </div>
                     </div>
                   ))}
 
-                {mockArticles.filter((a) => a.category === activeCategoryId || a.categoryName === categoryDisplayName).length === 0 && (
+                {articles.filter((a) => a.category === activeCategoryId || a.categoryName === categoryDisplayName).length === 0 && (
                   <div className="bg-white p-12 text-center text-gray-500 border border-gray-200 rounded">
                     <p className="font-serif text-lg mb-1">এই বিভাগে কোনো লেখা পাওয়া যায়নি</p>
                     <p className="text-xs">শীঘ্রই আরও লেখা ও প্রকাশনা যুক্ত হবে।</p>
@@ -322,12 +298,12 @@ export default function HomePage() {
                 <SidebarWidgets
                   latestArticles={latestArticles}
                   mostReadArticles={mostReadArticles}
-                  poll={mockPoll}
+                  poll={poll}
                   currentMember={currentMember}
                   onSelectArticle={handleSelectArticle}
                   onOpenEpaper={() => setCurrentView('epaper')}
-                  onOpenMembership={() => setIsMembershipOpen(true)}
-                  onOpenNoticeboard={() => setIsNoticeboardOpen(true)}
+                  onOpenMembership={openMembership}
+                  onOpenNoticeboard={openNoticeboard}
                   onFilterCampus={handleFilterCampus}
                 />
               </div>
@@ -338,11 +314,17 @@ export default function HomePage() {
         {/* View: HOMEPAGE */}
         {currentView === 'home' && (
           <div>
+            {articles.length === 0 && (
+              <div className="bg-white border border-stone-200 rounded p-8 text-center text-gray-500 mb-6">
+                <p className="font-serif text-lg mb-1">এখনো কোনো সংবাদ আপলোড করা হয়নি।</p>
+                <p className="text-xs">অ্যাডমিন প্যানেল থেকে সংবাদ যুক্ত করুন।</p>
+              </div>
+            )}
             {/* Club Wings Highlight Box (Chess, Study Circle, Songs & Poetry, Wall Magazine) */}
             <EventDarkBox
-              articles={mockArticles}
+              articles={articles}
               onSelectArticle={handleSelectArticle}
-              onOpenMembership={() => setIsMembershipOpen(true)}
+              onOpenMembership={openMembership}
             />
 
             {/* Main Split: 8 cols for News/Mag Content, 4 cols for Sidebar Widgets */}
@@ -366,13 +348,13 @@ export default function HomePage() {
                   onViewCategory={() => handleHeaderCategorySelect('mouthpiece')}
                 />
 
-                {/* 3. দাবা ক্লাব */}
+                {/* 3. ক্রীড়া */}
                 <CategorySection
-                  title="দাবা ক্লাব"
-                  categoryName="দাবা ক্লাব"
-                  articles={chessArticles}
+                  title="ক্রীড়া"
+                  categoryName="ক্রীড়া"
+                  articles={sportsArticles}
                   onSelectArticle={handleSelectArticle}
-                  onViewCategory={() => handleHeaderCategorySelect('chess')}
+                  onViewCategory={() => handleHeaderCategorySelect('sports')}
                 />
 
                 {/* 4. বুদ্ধিবৃত্তিক পাঠচক্র */}
@@ -401,12 +383,12 @@ export default function HomePage() {
                   <SidebarWidgets
                     latestArticles={latestArticles}
                     mostReadArticles={mostReadArticles}
-                    poll={mockPoll}
+                    poll={poll}
                     currentMember={currentMember}
                     onSelectArticle={handleSelectArticle}
                     onOpenEpaper={() => setCurrentView('epaper')}
-                    onOpenMembership={() => setIsMembershipOpen(true)}
-                    onOpenNoticeboard={() => setIsNoticeboardOpen(true)}
+                  onOpenMembership={openMembership}
+                  onOpenNoticeboard={openNoticeboard}
                     onFilterCampus={handleFilterCampus}
                   />
                 </div>

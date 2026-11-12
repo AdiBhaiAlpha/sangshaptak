@@ -4,7 +4,7 @@ import { Clock } from 'lucide-react';
 import { toBanglaNumber } from '../utils/banglaUtils';
 
 interface LeadNewsSectionProps {
-  leadArticle: Article;
+  leadArticle: Article | null;
   subLeadArticles: Article[];
   sideArticles: Article[];
   onSelectArticle: (article: Article) => void;
@@ -32,6 +32,8 @@ export const LeadNewsSection: React.FC<LeadNewsSectionProps> = ({
   const getCategoryName = (art: Article) => {
     return art.categoryName || art.category || 'সম্পাদকীয়';
   };
+
+  if (!leadArticle) return null;
 
   const getLocationText = (art: Article) => {
     if (!art.location) return null;

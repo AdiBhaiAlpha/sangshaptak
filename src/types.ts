@@ -4,7 +4,7 @@ export type CategoryId =
   | 'mouthpiece'     // মুখপত্র ও ছাত্র আন্দোলন
   | 'literature'     // সাহিত্য ও শিল্পকলা
   | 'study_circle'   // বুদ্ধিবৃত্তিক চর্চা ও পাঠচক্র
-  | 'chess'          // দাবা ক্লাব
+  | 'sports'         // ক্রীড়া
   | 'songs_poetry'   // গান ও কবিতা
   | 'publications'   // প্রকাশনা ও দেয়াল পত্রিকা
   | 'mymensingh'     // ময়মনসিংহ জেলা শাখা কার্যক্রম
@@ -29,6 +29,7 @@ export interface Article {
   imageUrl: string;
   imageCaption?: string;
   publishedTime: string;
+  createdAt?: number;
   author: {
     name: string;
     role?: string;
@@ -39,6 +40,7 @@ export interface Article {
   tags?: string[];
   isLead?: boolean;
   isSpecialFeature?: boolean;
+  isDraft?: boolean;
   isVideo?: boolean;
   videoDuration?: string;
   audioUrl?: string; // For songs/poetry
@@ -65,6 +67,7 @@ export interface ClubMember {
   emergencyContact?: string;
   address?: string;
   status: 'active' | 'approved';
+  _source?: 'firebase' | 'manual';
 }
 
 export interface ClubEvent {

@@ -38,17 +38,25 @@ export function getBengaliFormattedToday(): {
   gregorian: string;
   banglaEra: string;
   hijri: string;
+  time: string;
 } {
-  // Fixed realistic date context based on newspaper layout (Sat, 31 Oct 2026)
-  const dayName = 'শনিবার';
-  const dateNum = toBanglaNumber(31);
-  const monthName = 'অক্টোবর';
-  const yearNum = toBanglaNumber(2026);
+  const now = new Date();
+  const dayName = bnDays[now.getDay()];
+  const dateNum = toBanglaNumber(now.getDate());
+  const monthName = bnMonths[now.getMonth()];
+  const yearNum = toBanglaNumber(now.getFullYear());
+
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  const timeStr = `${hours}:${minutes} ${ampm}`;
 
   return {
     gregorian: `${dayName}, ${dateNum} ${monthName} ${yearNum}`,
-    banglaEra: `১৬ কার্তিক ১৪৩৩ বঙ্গাব্দ`,
-    hijri: `১৯ রবিউস সানি ১৪৪৮ হিজরি`,
+    banglaEra: timeStr,
+    hijri: '',
+    time: timeStr,
   };
 }
 

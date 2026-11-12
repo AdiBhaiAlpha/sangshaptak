@@ -1,4 +1,4 @@
-const IMGBB_KEY = import.meta.env.VITE_IMGBB_API_KEY as string;
+const IMGBB_KEY = (import.meta.env.VITE_IMGBB_API_KEY as string) || '3601399f318b007db7c3a8fdf499d8d0';
 
 export async function uploadImageToImgbb(file: File): Promise<string> {
   const form = new FormData();
@@ -9,6 +9,7 @@ export async function uploadImageToImgbb(file: File): Promise<string> {
   });
   if (!res.ok) throw new Error('imgbb upload failed');
   const json = await res.json();
-  if (!json?.data?.url) throw new Error('imgbb no url');
-  return json.data.url as string;
+  const url = json?.data?.image?.url || json?.data?.display_url || json?.data?.url;
+  if (!url) throw new Error('imgbb no url');
+  return url as string;
 }
