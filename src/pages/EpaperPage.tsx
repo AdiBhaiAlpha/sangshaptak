@@ -1,6 +1,6 @@
 import React from 'react';
 import { SEO } from '../components/SEO';
-import { EpaperView } from '../components/EpaperView';
+import EpaperView from '../components/EpaperView';
 
 export default function EpaperPage() {
   return (

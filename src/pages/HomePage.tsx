@@ -14,7 +14,7 @@ import { LeadNewsSection } from '../components/LeadNewsSection';
 import { SidebarWidgets } from '../components/SidebarWidgets';
 import { CategorySection } from '../components/CategorySection';
 import { ArticleDetailView } from '../components/ArticleDetailView';
-import { EpaperView } from '../components/EpaperView';
+import EpaperView from '../components/EpaperView';
 
 import { ArrowLeft, Clock, MapPin, School } from 'lucide-react';
 import { toBanglaNumber } from '../utils/banglaUtils';

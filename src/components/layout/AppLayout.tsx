@@ -7,7 +7,7 @@ import { ConverterModal } from '../ConverterModal';
 import { MembershipModal } from '../MembershipModal';
 import { NoticeboardModal } from '../NoticeboardModal';
 import { useMember } from '../../context/MemberContext';
-import { EpaperView } from '../EpaperView';
+import EpaperView from '../EpaperView';
 
 export type AppLayoutOutletContext = {
   openSearch: () => void;
